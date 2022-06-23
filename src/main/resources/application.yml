@@ -1,0 +1,62 @@
+spring:
+  datasource: 
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://112.169.9.179:1433;databaseName=BootTest;encrypt=false;
+    username: econnet
+    password: econnet#$
+    
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 8
+      max-lifetime: 21600000
+        
+  thymeleaf:
+    cache: false
+    prefix: file:src/main/resources/templates/
+  web:
+    resources:
+      static-locations:
+      - file:src/main/resources/static/
+  jackson:
+    property-naming-strategy: UPPER_SNAKE_CASE
+
+server:
+  port: 8090
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  error:
+    include-exception: false
+    include-stacktrace: never
+
+mybatis:
+  type-aliases-package: com.example.demo
+  mapper-locations: classpath:mapper/**/*.xml
+  
+logging:
+  pattern:
+#    console: '%d{HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(%4.4line){yellow} %clr(:){faint} %m%n'
+    console: '%d{HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:%5p} ${PID:- } [%15.15t] %-40.40logger{39} %4.4line : %m%n'
+  level:
+    root: DEBUG
+    "[sun.rmi]": INFO
+    "[javax.management.remote.rmi]": INFO
+    "[jdk.event.security]": INFO
+    org:
+      springframework: INFO
+      "[springframework.web]": DEBUG
+      "[springframework.jdbc]": DEBUG
+      thymeleaf: 
+        TemplateEngine: INFO
+      apache:
+        catalina: INFO
+        tomcat: INFO
+        coyote:
+          http11: INFO
+    com:
+      "[zaxxer.hikari.pool.HikariPool]": INFO
+      "[zaxxer.hikari.HikariConfig]": INFO
+      "[microsoft.sqlserver.jdbc]": INFO
+      
