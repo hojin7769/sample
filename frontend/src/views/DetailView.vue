@@ -25,9 +25,12 @@
         </v-row>
 
         <div class="btn_grop">
-          <v-btn @click="listback">목록</v-btn>
-          <v-btn  @click="save">저장</v-btn>
-          <v-btn  @click="deleteSeq">삭제</v-btn>
+          <v-btn @click="listback" style="margin-right: 10px">목록</v-btn>
+          <v-btn  @click="save" style="margin-right: 10px">저장</v-btn>
+          <v-btn
+          color="error"
+          plain
+          @click="deleteSeq" style="margin-right: 10px">삭제</v-btn>
         </div>
       </div>
     </v-container>
@@ -128,9 +131,13 @@ export default {
 }
 
 
-.btn_grop {
+  .btn_grop {
   text-align: center;
 }
+
+  v-btn{
+    margin-right: 10px;
+  }
 
 input,
 textarea {
