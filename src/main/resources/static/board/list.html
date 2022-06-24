@@ -1,38 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>board test</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$.ajax({
-			url: '/api/boardList',
-			type: 'POST',
-			contentType: 'application/json',
-			dataType: 'json'
-		})
-		.done(function(json) {
-			let html = "";
-			console.log(json);
-			for (var i = 0; i < json.length; i++) {
-				html += "<tr>";
-				html += "<td>" + json[i].NO_SEQ + "</td>";
-				html += "<td><a href='/board/detail.html?NO_SEQ=" + json[i].NO_SEQ + "'>" + json[i].DS_TITLE + "</a></td>";
-				html += "<td>" + json[i].ID_USER + "</td>";
-				html += "<td>" + json[i].DT_INSERT + "</td>";
-				html += "</tr>";
-			}
-			
-			$("#boardList").html(html);
-		})
-		.fail(function(xhr, status, errorThrown) {
+	<meta charset="UTF-8">
+	<title>board test</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			let sendData = {
+				MapperId: "BoardMapper.list"
+			};
+
+			$.ajax({
+				url: '/api/list',
+				type: 'POST',
+				contentType: 'application/json',
+				dataType: 'json',
+				data: JSON.stringify(sendData)
+			})
+					.done(function(json) {
+						let html = "";
+						for (var i = 0; i < json.length; i++) {
+							html += "<tr>";
+							html += "<td>" + json[i].NO_SEQ + "</td>";
+							html += "<td><a href='/board/detail.html?NO_SEQ=" + json[i].NO_SEQ + "'>" + json[i].DS_TITLE + "</a></td>";
+							html += "<td>" + json[i].ID_USER + "</td>";
+							html += "<td>" + json[i].DT_INSERT + "</td>";
+							html += "</tr>";
+						}
+
+						$("#boardList").html(html);
+					})
+					.fail(function(xhr, status, errorThrown) {
+					});
 		});
-	});
-</script>
+	</script>
 </head>
 <body>
-	<table id="boardList"></table>
-	<button onclick="location.href='/board/detail.html'">쓰기</button>
+<table id="boardList"></table>
+<button onclick="location.href='/board/detail.html'">쓰기</button>
 </body>
 </html>

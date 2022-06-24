@@ -49,6 +49,10 @@ export default {
       title: "",
       content: "",
       id: "",
+      sneData :{
+        MapperId: "BoardMapper.detail",
+        NO_SEQ : this.$route.params.NO_SEQ,
+      }
     }
 
   }, created() {
@@ -60,7 +64,7 @@ export default {
   methods: {
     detail() {
       const param = this.$route.params;
-      callUrl("boardDetail", param)
+      callUrl("detail", this.sneData)
         .then(response => {
           this.seq = response.data.data.NO_SEQ;
           this.title = response.data.data.DS_TITLE;
@@ -77,6 +81,10 @@ export default {
         ID_USER: this.id ,
         DS_TITLE: this.title,
         DS_CONTENT: this.content,
+        MapperId:"BoardMapper.insert",
+      }
+      if (this.seq != "" ){
+        param.MapperId = "BoardMapper.update"
       }
       callUrl("boardSave", param)
         .then(response => {
@@ -101,10 +109,11 @@ export default {
         NO_SEQ: this.seq,
         DS_TITLE: this.title,
         DS_CONTENT: this.content,
-        ID_USER: this.id
+        ID_USER: this.id,
+        MapperId:"BoardMapper.delete",
       }
       if (!confirm("삭제하시겠습니까?")) return false;
-      callUrl('boardDelete', param)
+      callUrl('boardSave', param)
         .then(function (response) {
           if (response.status == '200') {
             alert("삭제되었습니다.");

@@ -10,10 +10,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(d, i) in data.boardList" :key="i">
+        <tr v-for="(d, i) in data" :key="i">
           <td>{{ d.NO_SEQ }}</td>
           <td>{{ d.ID_USER }}</td>
-          <td class="point" @click="clickParams(d.NO_SEQ)">{{ d.DS_TITLE }}</td>
+          <td class="point" @click="clickParams(d.NO_SEQ)">{{d.DS_CONTENT }}</td>
           <td>{{ yyyyMMdd(d.DT_INSERT) }}</td>
         </tr>
       </tbody>
@@ -26,33 +26,34 @@
   </div>
 </template>
 <script>
-import { onMounted, reactive } from 'vue';
-import axios from 'axios';
+import { callUrl } from '../assets/js/ui.js';
 
 export default {
   name: 'app',
-  setup() {
-    const data = reactive({
-      boardList: []
-    });
-    const getList = () => {
-      axios.post('http://localhost:8090/api/boardList')
+  data(){
+    return{
+      sendData : {
+        MapperId: "BoardMapper.list"
+      },
+      data:[],
+    }
+  },
+  mounted() {
+    this.listcall();
+  },
+  methods: {
+
+    listcall(){
+      callUrl("list",this.sendData)
         .then(response => {
-          data.boardList = response.data;
+          this.data = response.data
+          console.log(response.data);
         })
-        .catch(function (error) {
+        .catch(error => {
           console.log(error);
         });
-    };
-    onMounted(() => {
-      getList();
-    })
-    return {
-      data,
-      getList
     }
-  }, methods: {
-    clickParams(val) {
+    ,clickParams(val) {
       this.$router.push({ name: 'listDetail', params: { NO_SEQ: val } })
     },
     yyyyMMdd(value) {

@@ -1,120 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>board test</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		let searchParams = new URLSearchParams(window.location.search);
-		if (searchParams.has('NO_SEQ')) {
-			let no_seq = searchParams.get('NO_SEQ');
-					
+	<meta charset="UTF-8">
+	<title>board test</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			let searchParams = new URLSearchParams(window.location.search);
+			if (searchParams.has('NO_SEQ')) {
+				let no_seq = searchParams.get('NO_SEQ');
+
+				const sendData = {
+					MapperId: "BoardMapper.detail",
+					NO_SEQ: no_seq
+				};
+
+				$.ajax({
+					url: '/api/detail',
+					type: 'POST',
+					contentType: 'application/json',
+					dataType: 'json',
+					data: JSON.stringify(sendData)
+				})
+						.done(function(json) {
+							if (json.data != null) {
+								var data = json.data;
+								$("#txtNO_SEQ").val(data.NO_SEQ);
+								$("#txtID_USER").val(data.ID_USER);
+								$("#txtDS_TITLE").val(data.DS_TITLE);
+								$("#txtDS_CONTENT").val(data.DS_CONTENT);
+							}
+						})
+						.fail(function(xhr, status, errorThrown) {
+							alert(xhr.responseJSON.message);
+						});
+			}
+		});
+
+		function onList() {
+			location.href = "/board/list.html";
+		}
+
+		function onSave() {
+			if (!confirm("저장하시겠습니까?")) return false;
+
+			let mapperId = "BoardMapper.insert";
+			if ($("#txtNO_SEQ").val() != "") {
+				mapperId = "BoardMapper.update";
+			}
 			const sendData = {
-				NO_SEQ: no_seq
-			};
-			
+				MapperId: mapperId,
+				ID_USER: $("#txtID_USER").val(),
+				DS_TITLE: $("#txtDS_TITLE").val(),
+				DS_CONTENT: $("#txtDS_CONTENT").val(),
+				NO_SEQ: $("#txtNO_SEQ").val(),
+			}
+
 			$.ajax({
-				url: '/api/boardDetail',
+				url: '/api/save',
 				type: 'POST',
 				contentType: 'application/json',
 				dataType: 'json',
-				data: JSON.stringify(sendData)			
+				data: JSON.stringify(sendData)
 			})
-			.done(function(json) {
-				if (json.data != null) {
-					var data = json.data;
-					$("#txtNO_SEQ").val(data.NO_SEQ);
-					$("#txtID_USER").val(data.ID_USER);
-					$("#txtDS_TITLE").val(data.DS_TITLE);
-					$("#txtDS_CONTENT").val(data.DS_CONTENT);
-				}			
-			})
-			.fail(function(xhr, status, errorThrown) {
-			});
+					.done(function(json) {
+						if (json.data != null) {
+							alert("저장되었습니다.");
+							var data = json.data;
+							location.href = "/board/detail.html?NO_SEQ=" + data.NO_SEQ;
+						}
+					})
+					.fail(function(xhr, status, errorThrown) {
+						alert(xhr.responseJSON.message);
+					});
 		}
-	});
-	
-	function onList() {
-		location.href = "/board/list.html";
-	}	
-	
-	function onSave() {
-		const sendData = {
-			ID_USER: $("#txtID_USER").val(),
-			DS_TITLE: $("#txtDS_TITLE").val(),
-			DS_CONTENT: $("#txtDS_CONTENT").val(),
-			NO_SEQ: $("#txtNO_SEQ").val(),
-		}
-		
-		$.ajax({
-			url: '/api/boardSave',
-			type: 'POST',
-			contentType: 'application/json',
-			dataType: 'json',
-			data: JSON.stringify(sendData)			
-		})
-		.done(function(json) {
-			if (json.data != null) {
-				var data = json.data;
-				location.href = "/board/detail.html?NO_SEQ=" + data.NO_SEQ;
-			}			
-		})
-		.fail(function(xhr, status, errorThrown) {
-		});
-	}
 
-	function onDelete() {
-		if (!confirm("삭제하시겠습니까?")) return false;
-		
-		const sendData = {
-			NO_SEQ: $("#txtNO_SEQ").val(),
+		function onDelete() {
+			if (!confirm("삭제하시겠습니까?")) return false;
+
+			const sendData = {
+				MapperId: "BoardMapper.delete",
+				NO_SEQ: $("#txtNO_SEQ").val(),
+			}
+
+			$.ajax({
+				url: '/api/save',
+				type: 'POST',
+				contentType: 'application/json',
+				dataType: 'json',
+				data: JSON.stringify(sendData)
+			})
+					.done(function(json) {
+						if (json.data != null) {
+							alert("삭제되었습니다.");
+							location.href = "/board/list.html";
+						}
+					})
+					.fail(function(xhr, status, errorThrown) {
+						alert(xhr.responseJSON.message);
+					});
 		}
-		
-		$.ajax({
-			url: '/api/boardDelete',
-			type: 'POST',
-			contentType: 'application/json',
-			dataType: 'json',
-			data: JSON.stringify(sendData)			
-		})
-		.done(function(json) {
-			if (json.data != null) {
-				alert("삭제되었습니다.");
-				location.href = "/board/list.html";
-			}			
-		})
-		.fail(function(xhr, status, errorThrown) {
-			alert(xhr.responseJSON.message);
-		});
-	}
-</script>
+	</script>
 </head>
 <body>
-	<table id="boardDetail">
-		<tr>
-			<td>SEQ</td>
-			<td><input type="text" id="txtNO_SEQ" readonly="readonly" /></td>
-		</tr>
-		<tr>
-			<td>작성자</td>
-			<td><input type="text" id="txtID_USER" /></td>
-		</tr>
-		<tr>
-			<td>제목</td>
-			<td><input type="text" id="txtDS_TITLE" /></td>
-		</tr>
-		<tr>
-			<td>내용</td>
-			<td><textarea id="txtDS_CONTENT" rows="5"></textarea></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-		</tr>
-	</table>
-	<button onclick="onList()">목록</button>
-	<button onclick="onSave()">저장</button>
-	<button onclick="onDelete()">삭제</button>
+<table id="boardDetail">
+	<tr>
+		<td>SEQ</td>
+		<td><input type="text" id="txtNO_SEQ" readonly="readonly" /></td>
+	</tr>
+	<tr>
+		<td>작성자</td>
+		<td><input type="text" id="txtID_USER" /></td>
+	</tr>
+	<tr>
+		<td>제목</td>
+		<td><input type="text" id="txtDS_TITLE" /></td>
+	</tr>
+	<tr>
+		<td>내용</td>
+		<td><textarea id="txtDS_CONTENT" rows="5"></textarea></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+<button onclick="onList()">목록</button>
+<button onclick="onSave()">저장</button>
+<button onclick="onDelete()">삭제</button>
 </body>
 </html>
