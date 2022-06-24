@@ -26,7 +26,7 @@
         </tr>
       </tbody>
     </v-table>
-    <v-btn prepend onclick="location.href='/boardDetail'" class="btn">
+    <v-btn prepend onclick="location.href='/listDetail'" class="btn">
       <v-icon>mdi-pencil</v-icon>
       글쓰기
     </v-btn>
@@ -40,9 +40,6 @@ export default {
   name: 'app',
   data(){
     return{
-      sendData : {
-        MapperId: "BoardMapper.list"
-      },
       data:[],
       isLoading: true,
     }
@@ -53,7 +50,7 @@ export default {
   methods: {
 
     listcall(){
-      callUrl("list",this.sendData)
+      callUrl("boardList")
         .then(response => {
           this.data = response.data
           this.isLoading = false
