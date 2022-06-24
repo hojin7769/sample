@@ -1,5 +1,5 @@
 <template>
-   <v-card>
+  <v-card height="100%">
     <v-layout>
       <!-- <v-system-bar color="deep-purple darken-3"></v-system-bar> -->
 
@@ -32,11 +32,14 @@
 
       <v-main>
         <v-card-text>
-         <router-view></router-view>
+          <router-view>
+          </router-view>
         </v-card-text>
       </v-main>
     </v-layout>
+
   </v-card>
+
 </template>
 
 <script>

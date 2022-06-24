@@ -1,84 +1,29 @@
 <template>
-    <body class="text-center">
-   <main class="form-signin">
-      <form action="login.jsp" method="post">
-         <img class="mb-4" src="https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-logo-shadow.png" alt="" width="72" height="57">
-         <h1 class="h3 mb-3 fw-normal">로그인 페이지</h1>
-         
-         <div class="form-floating">
-            <input type="text" class="form-control" id="id" placeholder="아이디 입력...">
-            <label for="id">아이디</label>
-         </div>
-         <div class="form-floating">
-            <input type="password" class="form-control" id="pwd" placeholder="Password">
-            <label for="pwd">비밀번호</label>
-         </div>
-         
-         <div class="checkbox mb-3">
-            <label>
-               <input type="checkbox" value="remember-me"> 아이디 저장
-            </label>
-         </div>
-         <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
-         <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
-      </form>
-   </main>
-</body>
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm4 md4>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>Login form</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-card-text>
+            <v-form>
+              <v-text-field label="아이디" type="text"></v-text-field>
+              <v-text-field  label="비밀번호" type="password"></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" >로그인</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
-<script>
-export default {
-    name: 'SampleData',
-    components: {},
-    data() {
-        return {
-        };
-    },
-    setup() { },
-    created() { },
-    mounted() { },
-    unmounted() { },
-    methods: {
-    }
-}
-</script>
-<style scoped>
-html,
-body {
-    height: 100%;
-}
 
-body {
-    display: flex;
-    align-items: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #f5f5f5;
-}
 
-.form-signin {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
-}
+<style>
 
-.form-signin .checkbox {
-    font-weight: 400;
-}
-
-.form-signin .form-floating:focus-within {
-    z-index: 2;
-}
-
-.form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
 </style>
