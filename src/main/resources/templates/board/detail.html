@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+	<title>Thymeleaf 테스트</title>
+	<script type="text/javascript">
+		function onload() {
+			var msg = "[(${message})]" || "";
+			if(msg != "") {
+				alert(msg);
+			}
+		}
+
+		function fnSave() {
+			form.action='/board/save';
+		}
+
+		function fnDelete() {
+			if(!confirm("삭제하시겠습니까?")) {
+				return false;
+			}
+			form.action='/board/delete';
+		}
+	</script>
+</head>
+<body onload="onload()">
+<h1>board detail</h1>
+<form th:action="@{/board/save}" th:object="${form}" method="post" name="form" enctype="multipart/form-data">
+	<!--
+    <div th:each="property : ${form.properties.entrySet()}">
+        <label th:for="*{properties['__${property.key}__']}" th:text="${property.key}">Property</label>
+        <input type="text" th:field="*{properties['__${property.key}__']}" />
+    </div> -->
+	<label>SEQ</label>
+	<label th:text="*{properties['__NO_SEQ__']}"></label>
+	<input type="hidden"  th:field="*{properties['__NO_SEQ__']}" /><br />
+	<label>작성자</label>
+	<input type="text" th:field="*{properties['__ID_USER__']}" /><br />
+	<label>제목</label>
+	<input type="text" th:field="*{properties['__DS_TITLE__']}" /><br />
+	<label>내용</label>
+	<input type="text" th:field="*{properties['__DS_CONTENT__']}" /><br />
+	<label>작성일</label>
+	<label th:text="*{properties['__DT_INSERT__']}"></label><br />
+	<label>수정일</label>
+	<label th:text="*{properties['__DT_UPDATE__']}"></label><br />
+	<button type="submit" onclick="return fnSave();">Save</button>
+	<button th:if="${seq > 0}" type="submit" onclick="return fnDelete();">Delete</button>
+	<button type="button" onclick="location.href='/board/list';">List</button>
+</form>
+</body>
+</html>

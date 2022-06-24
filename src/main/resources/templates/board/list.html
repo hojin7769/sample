@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+	<title>Thymeleaf 테스트</title>
+	<script type="text/javascript">
+		function onload() {
+			var msg = "[(${message})]" || "";
+			if(msg != "") {
+				alert(msg);
+			}
+		}
+	</script>
+</head>
+<body onload="onload()">
+<h1>board list</h1>
+<table>
+	<tr th:each="item : ${list}">
+		<td th:text="${item.NO_SEQ}"></td>
+		<td><a th:href="@{/board/detail/{seq}(seq=${item.NO_SEQ})}"
+			   th:text="${item.DS_TITLE}"></a></td>
+		<td th:text="${item.ID_USER}"></td>
+		<td th:text="${item.DT_INSERT}"></td>
+	</tr>
+</table>
+<br />
+<button onclick="location.href='/board/detail'">Write</button>
+</body>
+</html>
