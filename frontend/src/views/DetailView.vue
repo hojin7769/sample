@@ -1,4 +1,12 @@
 <template>
+  <div class="text-center" v-if="isLoading">
+    <v-progress-circular
+      indeterminate
+      color="primary"
+      :size="70"
+      :width="7"
+    ></v-progress-circular>
+  </div>
   <v-form justify="center" >
     <v-container style="width:50%">
       <div class="container">
@@ -9,18 +17,18 @@
         </v-row>
         <v-row>
           <v-col cols="12" sm="12">
-            <v-text-field v-model="id" label="작성자" required></v-text-field>
+            <v-text-field v-model="id" label="작성자" required clearable></v-text-field>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="12" sm="12">
-            <v-text-field v-model="title" label="제목" clearable></v-text-field>
+            <v-text-field v-model="title" label="제목" required clearable></v-text-field>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="12">
-            <v-textarea background-color="light-blue" color="black" label="내용" v-model="content"></v-textarea>
+            <v-textarea background-color="light-blue" color="black" label="내용" v-model="content"  required clearable></v-textarea>
           </v-col>
         </v-row>
 
@@ -151,5 +159,16 @@ export default {
 input,
 textarea {
   text-align: left;
+}
+
+.v-progress-circular {
+  margin: 1rem;
+  z-index: 2;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
+
 }
 </style>

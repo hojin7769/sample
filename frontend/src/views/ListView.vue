@@ -1,4 +1,12 @@
 <template>
+  <div class="text-center" v-if="isLoading">
+    <v-progress-circular
+      indeterminate
+      color="primary"
+      :size="70"
+      :width="7"
+    ></v-progress-circular>
+  </div>
   <div>
     <v-table>
       <thead>
@@ -36,6 +44,7 @@ export default {
         MapperId: "BoardMapper.list"
       },
       data:[],
+      isLoading: true,
     }
   },
   mounted() {
@@ -47,7 +56,7 @@ export default {
       callUrl("list",this.sendData)
         .then(response => {
           this.data = response.data
-          console.log(response.data);
+          this.isLoading = false
         })
         .catch(error => {
           console.log(error);
@@ -101,5 +110,16 @@ export default {
 
 td {
   text-align: center;
+}
+
+.v-progress-circular {
+  margin: 1rem;
+  z-index: 2;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 9999px;
+
 }
 </style>
