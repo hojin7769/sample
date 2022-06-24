@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.sample.mapper.BoardMapper;
-import com.example.sample.model.BoardVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,34 +16,36 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper boardMapper;
 
 	@Override
-	public List<BoardVO> list() {
+	public List<Map<String, Object>> list(Map<String, Object> map) {
 		return boardMapper.list();
 	}
 
 	@Override
-	public BoardVO detail(BoardVO boardVO) {
-		return boardMapper.detail(boardVO);
+	public Map<String, Object> detail(Map<String, Object> map) {
+		return boardMapper.detail(map);
 	}
 
 	@Override
 	@Transactional
-	public BoardVO insert(BoardVO boardVO) {
-		int rtn = boardMapper.insert(boardVO);
-		return boardVO;
+	public Map<String, Object> insert(Map<String, Object> map) {
+		int rtn = boardMapper.insert(map);
+		return map;
 	}
 
 	@Override
 	@Transactional
-	public BoardVO update(BoardVO boardVO) {
-		int rtn = boardMapper.update(boardVO);
-		return boardVO;
+	public Map<String, Object> update(Map<String, Object> map) {
+		int rtn = boardMapper.update(map);
+//		boardDAO.exeception(map);
+		return map;
 	}
+	
 
 	@Override
 	@Transactional
-	public BoardVO delete(BoardVO boardVO) {
-		int rtn = boardMapper.delete(boardVO);
-		return boardVO;
+	public Map<String, Object> delete(Map<String, Object> map) {
+		int rtn = boardMapper.delete(map);
+		return map;
 	}
 
 }
