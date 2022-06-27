@@ -8,9 +8,26 @@
     ></v-progress-circular>
   </div>
   <div>
+    <div style="padding: 30px; background-color: burlywood" >
+        <p class="text-h4">게시판</p>
+    </div>
+    <div  >
+      <v-toolbar flat color="white" >
+      <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-text-field
+          hide-details
+          prepend-inner-icon="mdi-magnify"
+          single-line
+          bg-color="white"
+        ></v-text-field>
+      </v-toolbar>
+    </div>
     <v-table>
       <thead>
-        <tr>
+        <tr >
           <th class="text-center">글 번호</th>
           <th class="text-center">글 쓴이</th>
           <th class="text-center">글 제목</th>
@@ -18,10 +35,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(d, i) in data" :key="i">
+        <tr v-for="(d, i) in data" :key="i" @click="clickParams(d.NO_SEQ)">
           <td>{{ d.NO_SEQ }}</td>
           <td>{{ d.ID_USER }}</td>
-          <td class="point" @click="clickParams(d.NO_SEQ)">{{d.DS_CONTENT }}</td>
+          <td class="point">{{d.DS_CONTENT }}</td>
           <td>{{ yyyyMMdd(d.DT_INSERT) }}</td>
         </tr>
       </tbody>
@@ -30,6 +47,21 @@
       <v-icon>mdi-pencil</v-icon>
       글쓰기
     </v-btn>
+    <div class="text-center">
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-container class="max-width">
+              <v-pagination
+                v-model="page"
+                class="my-4"
+                :length="1"
+              ></v-pagination>
+            </v-container>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
 
   </div>
 </template>
@@ -42,6 +74,7 @@ export default {
     return{
       data:[],
       isLoading: true,
+      page: 1,
     }
   },
   mounted() {
@@ -90,15 +123,6 @@ export default {
 }
 </script>
 <style scoped>
-.point {
-  cursor: pointer;
-}
-
-.point:hover {
-  text-decoration: underline;
-  color: blue;
-}
-
 .btn {
   float: right;
   margin-right: 10px;
