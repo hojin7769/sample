@@ -1,22 +1,22 @@
 spring:
-  datasource: 
+  datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://112.169.9.179:1433;databaseName=BootTest;encrypt=false;
+    url: jdbc:sqlserver://112.169.9.179:1433;databaseName=BootTest
     username: econnet
     password: econnet#$
-    
+
     hikari:
       connection-timeout: 60000
       maximum-pool-size: 8
       max-lifetime: 21600000
-        
+
   thymeleaf:
     cache: false
     prefix: file:src/main/resources/templates/
   web:
     resources:
       static-locations:
-      - file:src/main/resources/static/
+        - file:src/main/resources/static/
   jackson:
     property-naming-strategy: UPPER_SNAKE_CASE
 
@@ -31,13 +31,9 @@ server:
     include-exception: false
     include-stacktrace: never
 
-mybatis:
-  type-aliases-package: com.example.sample
-  mapper-locations: classpath:mapper/**/*.xml
-  
 logging:
   pattern:
-#    console: '%d{HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(%4.4line){yellow} %clr(:){faint} %m%n'
+    #    console: '%d{HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(%4.4line){yellow} %clr(:){faint} %m%n'
     console: '%d{HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:%5p} ${PID:- } [%15.15t] %-40.40logger{39} %4.4line : %m%n'
   level:
     root: DEBUG
@@ -48,7 +44,7 @@ logging:
       springframework: INFO
       "[springframework.web]": DEBUG
       "[springframework.jdbc]": DEBUG
-      thymeleaf: 
+      thymeleaf:
         TemplateEngine: INFO
       apache:
         catalina: INFO

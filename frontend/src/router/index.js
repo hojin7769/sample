@@ -1,12 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import ListDetail from '../views/DetailView.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import ListDetail from '../views/DetailView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
+    component: HomeView
   },
   {
     path: '/about',
@@ -14,7 +14,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
     path: '/list',
@@ -22,7 +22,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "list" */ '../views/ListView.vue'),
+    component: () => import(/* webpackChunkName: "list" */ '../views/ListView.vue')
   },
   {
     path: '/listDetail',
@@ -30,19 +30,19 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component:ListDetail,
+    component: ListDetail,
     // true로 설정하면 데이터를 props로도 받습니다.
-    props: true,
-  },{
+    props: true
+  }, {
     path: '/login',
-    name:'login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/login/login_main.vue'),
+    name: 'login',
+    component: () => import(/* webpackChunkName: "login" */ '../views/login/login_main.vue')
   }
-];
+]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
-});
+  routes
+})
 
-export default router;
+export default router

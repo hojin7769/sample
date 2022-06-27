@@ -45,91 +45,89 @@
   </v-form>
 </template>
 <script>
-import { callUrl } from '../assets/js/ui.js';
-
+import { callUrl } from '../assets/js/ui.js'
 
 export default {
   name: 'listDetail',
-  data() {
-
+  data () {
     return {
-      seq: "",
-      title: "",
-      content: "",
-      id: "",
-      sneData :{
-        NO_SEQ : this.$route.params.NO_SEQ,
+      seq: '',
+      title: '',
+      content: '',
+      id: '',
+      sneData: {
+        NO_SEQ: this.$route.params.NO_SEQ
       }
     }
-
-  }, created() {
-  }, mounted() {
-    this.detail();
   },
-  updated() {
+  created () {
+  },
+  mounted () {
+    this.detail()
+  },
+  updated () {
   },
   methods: {
-    detail() {
-      const param = this.$route.params;
-      callUrl("boardDetail", this.sneData)
+    detail () {
+      const param = this.$route.params
+      callUrl('boardDetail', this.sneData)
         .then(response => {
-          this.seq = response.data.data.NO_SEQ;
-          this.title = response.data.data.DS_TITLE;
-          this.content = response.data.data.DS_CONTENT;
-          this.id = response.data.data.ID_USER;
+          this.seq = response.data.data.NO_SEQ
+          this.title = response.data.data.DS_TITLE
+          this.content = response.data.data.DS_CONTENT
+          this.id = response.data.data.ID_USER
         })
         .catch(error => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
-    save() {
+    save () {
       const param = {
         NO_SEQ: this.seq,
-        ID_USER: this.id ,
+        ID_USER: this.id,
         DS_TITLE: this.title,
-        DS_CONTENT: this.content,
+        DS_CONTENT: this.content
       }
 
-      callUrl("boardSave", param)
+      callUrl('boardSave', param)
         .then(response => {
           if (response.status == '200') {
-            alert("저장이 완료되었습니다.")
-            this.listback();
+            alert('저장이 완료되었습니다.')
+            this.listback()
           }
         })
         .catch(function (error) {
-          console.log(param);
-          console.log(error.request);
-          console.log(error.message);
-          console.log(error.response);
-        });
+          console.log(param)
+          console.log(error.request)
+          console.log(error.message)
+          console.log(error.response)
+        })
     },
 
-    listback() {
-      location.href = "http://localhost:8080/list"
+    listback () {
+      location.href = 'http://localhost:8080/list'
     },
-    deleteSeq() {
+    deleteSeq () {
       const param = {
         NO_SEQ: this.seq,
         DS_TITLE: this.title,
         DS_CONTENT: this.content,
-        ID_USER: this.id,
+        ID_USER: this.id
       }
-      if (!confirm("삭제하시겠습니까?")) return false;
+      if (!confirm('삭제하시겠습니까?')) return false
       callUrl('boardDelete', param)
         .then(function (response) {
           if (response.status == '200') {
-            alert("삭제되었습니다.");
-            location.href = "/list";
+            alert('삭제되었습니다.')
+            location.href = '/list'
           }
         })
         .catch(function (error) {
-          console.log(error);
-        });
+          console.log(error)
+        })
     }
 
-
-  },
+  }
 
 }
 </script>
@@ -141,7 +139,6 @@ export default {
 #middle {
   text-align: center;
 }
-
 
   .btn_grop {
   text-align: center;
