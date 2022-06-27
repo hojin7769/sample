@@ -1,97 +1,84 @@
 <template>
-  <div class="outer">
-    <div class="inner">
-      <v-container fluid fill-height>
-        <v-layout align-center justify-center>
-          <v-sheet
-            elevation="18"
-            class="mx-auto"
-          >
-          <v-card class="elevation-12" width="80vmin">
-            <v-toolbar dark color="primary">
-              <v-toolbar-title>로그인</v-toolbar-title>
-              <v-spacer></v-spacer>
-            </v-toolbar>
-            <v-card-text>
-              <form>
-                <v-text-field
-                  label="아이디"
-                  data-vv-name="id"
-                  required
-                  clearable
-                ></v-text-field>
-                <v-text-field
-                  label="비밀번호"
-                  data-vv-name="pwd"
-                  required
-                  type="password"
-                  clearable
-                ></v-text-field>
-                <v-checkbox
-                  value="1"
-                  label="자동로그인"
-                  data-vv-name="agree"
-                  type="checkbox"
-                  required
-                ></v-checkbox>
-                <div style="text-align: center">
-                  <v-btn variant="tonal" class="btnGroup">로그인</v-btn>
-                  <v-btn variant="tonal" class="btnGroup">회원가입</v-btn>
-                </div>
-              </form>
-            </v-card-text>
-          </v-card>
-          </v-sheet>
-        </v-layout>
-        <v-snackbar
-        >
-          <v-btn>
-            닫기
-          </v-btn>
-        </v-snackbar>
-      </v-container>
-    </div>
-  </div>
+    <body class="text-center">
+   <main class="form-signin">
+      <form action="login.jsp" method="post">
+         <img class="mb-4" src="https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-logo-shadow.png" alt="" width="72" height="57">
+         <h1 class="h3 mb-3 fw-normal">로그인 페이지</h1>
+
+         <div class="form-floating">
+            <input type="text" class="form-control" id="id" placeholder="아이디 입력...">
+            <label for="id">아이디</label>
+         </div>
+         <div class="form-floating">
+            <input type="password" class="form-control" id="pwd" placeholder="Password">
+            <label for="pwd">비밀번호</label>
+         </div>
+
+         <div class="checkbox mb-3">
+            <label>
+               <input type="checkbox" value="remember-me"> 아이디 저장
+            </label>
+         </div>
+         <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+         <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+      </form>
+   </main>
+</body>
 </template>
-
+<script>
+export default {
+    name: 'SampleData',
+    components: {},
+    data() {
+        return {
+        };
+    },
+    setup() { },
+    created() { },
+    mounted() { },
+    unmounted() { },
+    methods: {
+    }
+}
+</script>
 <style scoped>
-/* 백그라운드 색깔 및 크기 설정 */
-.outer {
-  width : 100vw;
-  height : 100vh;
-  background-color: antiquewhite
+html,
+body {
+    height: 100%;
 }
 
-.inner {
-  width: auto;
-  height: auto;
+body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
 }
 
-
-/* 가운데 정렬 */
-.outer {
-  display: flex;
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
 }
 
-.inner {
-  margin: auto;
+.form-signin .checkbox {
+    font-weight: 400;
 }
 
-
-/* absolute */
-.outer, .inner {
-  position: relative
+.form-signin .form-floating:focus-within {
+    z-index: 2;
 }
 
-.absolute {
-  position: absolute;
-  bottom: 0;
-  right: 0
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
-
-.btnGroup {
-  margin-right: 5px;
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 </style>
-

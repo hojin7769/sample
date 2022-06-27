@@ -1,59 +1,78 @@
 <template>
-  <v-card>
+   <v-card>
     <v-layout>
-      <v-navigation-drawer
-        expand-on-hover
-        rail
+      <!-- <v-system-bar color="deep-purple darken-3"></v-system-bar> -->
+
+      <v-app-bar
+        color="primary"
+        prominent
       >
-        <v-list>
-          <v-list-item
-            prepend-avatar="https://cdn.icon-icons.com/icons2/602/PNG/512/Guest_icon-icons.com_55899.png"
-            title="guest"
-            subtitle=""
-          ></v-list-item>
-        </v-list>
+        <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-divider></v-divider>
+        <v-toolbar-title>???</v-toolbar-title>
 
-        <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-folder" title="list" value="myfiles" @click="goUrl('list')"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item>
-          <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
-        </v-list>
+        <v-spacer></v-spacer>
+
+        <v-btn variant="text" icon="mdi-magnify"></v-btn>
+
+        <v-btn variant="text" icon="mdi-filter"></v-btn>
+
+        <v-btn variant="text" icon="mdi-dots-vertical"></v-btn>
+      </v-app-bar>
+
+      <v-navigation-drawer
+        v-model="drawer"
+        bottom
+        temporary
+      >
+        <v-list
+          :items="items"
+        ></v-list>
       </v-navigation-drawer>
 
-      <v-main style="height: 100vh;">
-        <router-view></router-view>
+      <v-main>
+        <v-card-text>
+         <router-view></router-view>
+        </v-card-text>
       </v-main>
-
     </v-layout>
   </v-card>
 </template>
+
 <script>
 
 export default {
   name: 'App',
 
-  data: () => ({
-    icons: [
-      'mdi-facebook',
-      'mdi-twitter',
-      'mdi-linkedin',
-      'mdi-instagram',
-    ],
-  }),
-  methods:{
-    goUrl(val){
-      location.href='/'+val;
-    }
+    data: () => ({
+      drawer: false,
+      group: null,
+      items: [
+        {
+          title: 'Foo',
+          value: 'foo',
+        },
+        {
+          title: 'Bar',
+          value: 'bar',
+        },
+        {
+          title: 'Fizz',
+          value: 'fizz',
+        },
+        {
+          title: 'Buzz',
+          value: 'buzz',
+        },
+      ],
+    }),
 
-  },
+    watch: {
+      group () {
+        this.drawer = false
+      },
+    },
 }
+
+// vite 3.0 공식 페키징
 </script>
-<style>
- body{
-   margin: 0;
- }
-
-
-</style>
