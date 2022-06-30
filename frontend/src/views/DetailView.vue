@@ -42,63 +42,37 @@
       <q-btn-group push>
         <q-btn push label="목록" @click="listback" />
         <q-btn push label="수정" @click="dialog = true" />
-        <q-btn push label="삭제" />
+        <q-btn push label="삭제" @click="deleteSeq" />
       </q-btn-group>
     </div>
 
     <q-dialog v-model="dialog">
-      <q-card>
-        <q-card-section class="row items-center q-gutter-sm">
-          <q-btn no-caps label="Open menu" color="primary">
-            <q-menu>
-              <q-list dense style="min-width: 100px">
-                <q-item clickable v-close-popup="2">
-                  <q-item-section>Open...</q-item-section>
-                </q-item>
-                <q-item clickable v-close-popup="2">
-                  <q-item-section>New</q-item-section>
-                </q-item>
-                <q-separator />
-                <q-item clickable>
-                  <q-item-section>Preferences</q-item-section>
-                  <q-item-section side>
-                    <q-icon name="keyboard_arrow_right" />
-                  </q-item-section>
+      <q-card style="width: 400px">
+        <div style="text-align: center">
+          <h5>수정 페이지</h5>
+        </div>
+        <div class="q-pa-md">
+          <div class="q-gutter-md" style="max-width: 300px; margin: auto">
+            <q-input v-model="data.writer" label="글쓴이" clearable />
+            <q-input v-model="data.title" label="제목" clearable />
+            <q-input v-model="data.content" label="글내용" clearable />
+          </div>
 
-                  <q-menu anchor="top end" self="top start">
-                    <q-list>
-                      <q-item v-for="n in 3" :key="n" dense clickable>
-                        <q-item-section>Submenu Label</q-item-section>
-                        <q-item-section side>
-                          <q-icon name="keyboard_arrow_right" />
-                        </q-item-section>
-                        <q-menu anchor="top end" self="top start">
-                          <q-list>
-                            <q-item
-                              v-for="n in 3"
-                              :key="n"
-                              dense
-                              clickable
-                              v-close-popup="2"
-                            >
-                              <q-item-section>3rd level Label</q-item-section>
-                            </q-item>
-                          </q-list>
-                        </q-menu>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-item>
-                <q-separator />
-                <q-item clickable v-close-popup="2">
-                  <q-item-section>Quit</q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
-
-          <q-btn no-caps label="Close dialog" color="primary" v-close-popup />
-        </q-card-section>
+          <q-card-section
+            class="row q-gutter-sm items-center"
+            style="margin: auto; width: 300px"
+          >
+            <q-btn label="수정" color="primary" icon-right="edit" @click="save">
+            </q-btn>
+            <q-btn
+              label="창 닫기"
+              color="primary"
+              v-close-popup
+              icon-right="close"
+              @click="getList"
+            />
+          </q-card-section>
+        </div>
       </q-card>
     </q-dialog>
   </div>
@@ -125,6 +99,7 @@ export default {
       title: "",
       content: "",
       writer: "",
+      writeDay: "",
     });
     const getList = () => {
       console.log(props.NO_SEQ);
@@ -135,6 +110,7 @@ export default {
           data.title = response.data.data.DS_TITLE;
           data.content = response.data.data.DS_CONTENT;
           data.writer = response.data.data.ID_USER;
+          data.writeDay = response.data.data.DT_INSERT;
         })
         .catch(function (error) {
           console.log(error);
@@ -166,17 +142,19 @@ export default {
     },
     save() {
       const param = {
-        NO_SEQ: this.seq,
-        ID_USER: this.id,
-        DS_TITLE: this.title,
-        DS_CONTENT: this.content,
+        NO_SEQ: this.data.seq,
+        ID_USER: this.data.writer,
+        DS_TITLE: this.data.title,
+        DS_CONTENT: this.data.content,
+        DT_INSERT: this.data.writeDay,
       };
 
       callUrl("boardSave", param)
         .then((response) => {
           if (response.status == "200") {
             alert("저장이 완료되었습니다.");
-            this.listback();
+            this.getList;
+            this.dialog = false;
           }
         })
         .catch(function (error) {
@@ -198,10 +176,10 @@ export default {
     },
     deleteSeq() {
       const param = {
-        NO_SEQ: this.seq,
-        DS_TITLE: this.title,
-        DS_CONTENT: this.content,
-        ID_USER: this.id,
+        NO_SEQ: this.data.seq,
+        DS_TITLE: this.data.title,
+        DS_CONTENT: this.data.content,
+        ID_USER: this.data.writer,
       };
       if (!confirm("삭제하시겠습니까?")) return false;
       callUrl("boardDelete", param)
@@ -214,6 +192,10 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+    },
+
+    reRoll() {
+      router.go();
     },
   },
 };
