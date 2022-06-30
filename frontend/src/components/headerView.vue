@@ -48,7 +48,7 @@
 
 <script>
 import { onMounted, reactive, ref, toRef } from "vue";
-import router from "../../router/index.js";
+import router from "../router/index.js";
 import axios from "axios";
 
 export default {
@@ -82,7 +82,7 @@ export default {
       });
       if (repactLink) {
         router.addRoute({
-          component: () => import("../" + data.trim() + "View.vue"),
+          component: () => import("../views/" + data.trim() + "View.vue"),
           name: data,
           path: "/" + data.toLowerCase(),
         });

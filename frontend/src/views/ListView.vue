@@ -1,14 +1,19 @@
 <template>
-  <q-table
-    title="게시판"
-    :rows="data.boardList"
-    :columns="columns"
-    row-key="name"
-    @row-click="textPrint"
-    pagination="page:6"
-    v-model="pagination"
-    :rows-per-page-options="[10]"
-  />
+  <div class="q-pa-md">
+    <div class="items-end" style="text-align: end" @click="writePage">
+      <q-btn color="primary" label="글쓰기" />
+    </div>
+    <q-table
+      title="게시판"
+      :rows="data.boardList"
+      :columns="columns"
+      row-key="name"
+      @row-click="textPrint"
+      pagination="page:6"
+      v-model="pagination"
+      :rows-per-page-options="[10]"
+    />
+  </div>
 </template>
 <script>
 import { reactive, ref } from "vue";
@@ -88,6 +93,16 @@ export default {
       });
       router.push({ name: "listDetail", params: { NO_SEQ: seq } });
     };
+
+    const writePage = () => {
+      router.addRoute({
+        component: () => import("../views/WriterView.vue"),
+        name: "writer",
+        path: "/writer",
+        props: true,
+      });
+      router.push({ name: "writer" });
+    };
     onMounted(() => {
       getList();
     });
@@ -97,6 +112,7 @@ export default {
       columns,
       yyyyMMdd,
       textPrint,
+      writePage,
       pagination: ref({
         rowsPerPage: 10,
       }),

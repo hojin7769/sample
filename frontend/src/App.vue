@@ -1,5 +1,5 @@
 <script setup>
-import Hader from "./views/layout/headerView.vue";
+import Hader from "./components/headerView.vue";
 </script>
 <template>
   <q-layout view="hhh lpR lFf">
