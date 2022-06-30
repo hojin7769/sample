@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://112.169.9.179:1433;databaseName=BootTest
+    url: jdbc:sqlserver://112.169.9.179:1433;databaseName=BootTest;encrypt=false;
     username: econnet
     password: econnet#$
 
@@ -30,6 +30,10 @@ server:
   error:
     include-exception: false
     include-stacktrace: never
+
+mybatis:
+  type-aliases-package: com.example.demo
+  mapper-locations: classpath:mapper/**/*.xml
 
 logging:
   pattern:
