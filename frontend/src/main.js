@@ -1,12 +1,19 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import { Quasar } from "quasar";
+// Import icon libraries
+import "@quasar/extras/material-icons/material-icons.css";
 
-import App from './App.vue'
-import router from './router'
+// Import Quasar css
+import "quasar/src/css/index.sass";
 
-const app = createApp(App)
+import App from "./App.vue";
+import router from "./router";
 
-app.use(createPinia())
-app.use(router)
+const myApp = createApp(App);
+myApp.use(Quasar, {
+  plugins: {}, // import Quasar plugins and add here
+});
+myApp.use(router);
 
-app.mount('#app')
+myApp.mount("#app");
