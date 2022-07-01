@@ -1,8 +1,5 @@
 <template>
   <div class="q-pa-md">
-    <div class="items-end" style="text-align: end" @click="writePage">
-      <q-btn color="primary" label="글쓰기" />
-    </div>
     <q-table
       title="게시판"
       :rows="data.boardList"
@@ -12,7 +9,13 @@
       pagination="page:6"
       v-model="pagination"
       :rows-per-page-options="[10]"
-    />
+      flat
+      bordered
+    >
+      <template v-slot:top-right>
+        <q-btn color="primary" label="글쓰기" />
+      </template>
+    </q-table>
   </div>
 </template>
 <script>
@@ -25,7 +28,6 @@ import router from "../router";
 const columns = [
   {
     name: "NO_SEQ",
-    required: true,
     label: "글번호",
     align: "center",
     field: "NO_SEQ",
@@ -49,8 +51,11 @@ export default {
       boardList: [],
     });
     const getList = () => {
+      const sndData = {
+        MapperId: "BoardMapper.list",
+      };
       axios
-        .post("http://localhost:8090/api/boardList")
+        .post("http://localhost:8090/api/list", sndData)
         .then((response) => {
           data.boardList = response.data;
           console.log(data.boardList);

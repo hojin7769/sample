@@ -27,15 +27,15 @@
           <template v-for="(menuItem, index) in list.menuList" :key="index">
             <q-item
               clickable
-              :active="data.toLowerCase() === menuItem.MENU_LABLE.toLowerCase()"
+              :active="data === menuItem.MENU_LABEL"
               v-ripple
-              @click="(data = menuItem.MENU_LABLE), abc(data)"
+              @click="(data = menuItem.MENU_LABEL), abc(data)"
             >
               <q-item-section avatar>
                 <q-icon :name="menuItem.MENU_ICON" />
               </q-item-section>
               <q-item-section>
-                {{ menuItem.MENU_LABLE }}
+                {{ menuItem.MENU_LABEL }}
               </q-item-section>
             </q-item>
             <q-separator :key="'sep' + index" v-if="menuItem.MENU_SEPARATOR" />
@@ -68,7 +68,6 @@ export default {
         });
     };
     var path = window.location.pathname.substring(1);
-    const paths = ref(path);
     var newStr = path.replace(/^[a-z]/, (char) => char.toUpperCase());
     console.log(newStr);
     const data = ref(newStr);
@@ -87,7 +86,7 @@ export default {
           path: "/" + data.toLowerCase(),
         });
       }
-      router.push(data.toLowerCase());
+      router.push("/" + data.toLowerCase());
     };
 
     onMounted(() => {

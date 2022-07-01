@@ -9,6 +9,8 @@ spring:
       connection-timeout: 60000
       maximum-pool-size: 8
       max-lifetime: 21600000
+  session:
+    timeout: 120m
 
   thymeleaf:
     cache: false
@@ -19,7 +21,11 @@ spring:
         - file:src/main/resources/static/
   jackson:
     property-naming-strategy: UPPER_SNAKE_CASE
-
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 30MB
+      location: D:/GoodCen/Edu/files
 server:
   port: 8090
   servlet:
@@ -30,15 +36,21 @@ server:
   error:
     include-exception: false
     include-stacktrace: never
+    whitelabel:
+      enabled: false
+  tomcat:
+    max-swallow-size: -1
+    max-http-form-post-size: 20MB
 
 mybatis:
-  type-aliases-package: com.example.demo
+  type-aliases-package: com.example.sample.model
   mapper-locations: classpath:mapper/**/*.xml
 
 logging:
   pattern:
     #    console: '%d{HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(%4.4line){yellow} %clr(:){faint} %m%n'
-    console: '%d{HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:%5p} ${PID:- } [%15.15t] %-40.40logger{39} %4.4line : %m%n'
+    #    console: '%d{HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:%5p} ${PID:- } [%15.15t] %-40.40logger{39} %4.4line : %m%n'
+    console: '%d{HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:%5p} ${PID:- } [%15.15t] %logger %4.4line : %m%n'
   level:
     root: DEBUG
     "[sun.rmi]": INFO
@@ -48,6 +60,8 @@ logging:
       springframework: INFO
       "[springframework.web]": DEBUG
       "[springframework.jdbc]": DEBUG
+      "[springframework.security.web.access]": DEBUG
+      "[springframework.security.web.csrf]": DEBUG
       thymeleaf:
         TemplateEngine: INFO
       apache:
