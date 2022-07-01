@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref, toRef } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import router from "../../router/index.js";
 import axios from "axios";
 

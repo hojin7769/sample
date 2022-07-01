@@ -15,5 +15,4 @@ public interface MenuMapper {
     public int updateDel(MenuVO menuVO);
     public int maxSeq();
 
-
 }
