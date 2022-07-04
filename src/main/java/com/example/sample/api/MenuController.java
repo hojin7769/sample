@@ -29,6 +29,9 @@ public class MenuController {
 
     @PostMapping("/menuSave")
     public Map<String, Object> save(@RequestBody MenuVO param) {
+
+        System.out.println(param);
+
         Map<String, Object> map = new HashMap<String, Object>();
         if (param.getMENU_NUM() > 0) {
             map.put("data", menuService.update(param));

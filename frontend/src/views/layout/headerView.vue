@@ -6,9 +6,9 @@
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+            <img src="https://w7.pngwing.com/pngs/739/102/png-transparent-google-chrome-computer-icons-chrome-web-store-web-browser-world-wide-web-logo-internet-google-chrome-thumbnail.png" />
           </q-avatar>
-          Title
+          TESTWEB-APP
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -27,9 +27,9 @@
           <template v-for="(menuItem, index) in list.menuList" :key="index">
             <q-item
               clickable
-              :active="data === menuItem.MENU_LABEL"
+              :active= "data === menuItem.MENU_PATH"
               v-ripple
-              @click="(data = menuItem.MENU_LABEL), abc(data)"
+              @click="(data = menuItem.MENU_PATH), abc(data,menuItem.MENU_LABEL)"
             >
               <q-item-section avatar>
                 <q-icon :name="menuItem.MENU_ICON" />
@@ -67,31 +67,50 @@ export default {
           console.log(error);
         });
     };
-    var path = window.location.pathname.substring(1);
-    var newStr = path.replace(/^[a-z]/, (char) => char.toUpperCase());
-    console.log(newStr);
-    const data = ref(newStr);
-    const abc = function (data) {
+    const path = window.location.pathname.substring(1);
+    const data = ref(path);
+    const abc = function (data , label) {
       var repactLink = true;
       router.options.routes.forEach((route) => {
-        if (route.name == data) {
+        if (route.name == label) {
           // eslint-disable-next-line no-undef
           repactLink = false;
         }
       });
       if (repactLink) {
         router.addRoute({
-          component: () => import("../" + data.trim() + "View.vue"),
-          name: data,
-          path: "/" + data.toLowerCase(),
+          component: () => import("../" + label.trim() + "View.vue"),
+          name: label,
+          path: "/" + data,
         });
       }
-      router.push("/" + data.toLowerCase());
+      router.push("/" + data);
     };
 
+    const goRef = () =>{
+       var path = window.location.pathname.substring(1);
+       var newStr = path.replace(/^[a-z]/, (char) => char.toUpperCase());
+       var repactLink = true;
+      router.options.routes.forEach((route) => {
+        if (route.name == newStr ) {
+          // eslint-disable-next-line no-undef
+          repactLink = false;
+        }
+      });
+      if (repactLink) {
+        router.addRoute({
+          component: () => import("../" + newStr.trim() + "View.vue"),
+          name: newStr,
+          path: "/" + path,
+        });
+      }
+      router.push("/" + path);
+
+    }
     onMounted(() => {
       getMenu();
-      abc(newStr);
+      goRef();
+
     });
 
     return {
@@ -100,6 +119,7 @@ export default {
       getMenu,
       abc,
       data,
+      goRef,
     };
   },
 };

@@ -96,17 +96,16 @@ export default {
       let now = new Date();
       
       let year = now.getFullYear();
-      let month = now.getMonth()+1;
+      let month = now.getMonth();
       let day = now.getDate();
 
       let stDay = new Date(val);
       let endDay = new Date(year,month,day);
-      
       let btMs = endDay.getTime() - stDay.getTime();
 
       let btDay = btMs/(1000*60*60*24);
 
-      return Math.round(btDay);
+      return Math.floor(btDay+1);
       
     }
     //셋업에서 정의를 내리고 마운트됐을때 실행한다.

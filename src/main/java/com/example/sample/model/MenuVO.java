@@ -11,5 +11,5 @@ public class MenuVO {
     private int MENU_SEQ;
     private Boolean MENU_SEPARATOR;
     private String MENU_DEL_YN;
-
+    private String MENU_PATH;
 }

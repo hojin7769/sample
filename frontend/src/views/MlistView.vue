@@ -3,11 +3,8 @@
     <q-markup-table>
       <thead>
         <tr class="bg-green">
-<<<<<<< HEAD
           <th colspan="5">
-=======
-          <th colspan="4">
->>>>>>> origin/sample6-0
+
             <div class="row no-wrap items-center">
               <div class="text-h4 q-ml-md text-white">메뉴 관리</div>
             </div>
@@ -28,10 +25,7 @@
           <th>메뉴아이콘</th>
           <th>메뉴순서</th>
           <th>메뉴선 유무</th>
-<<<<<<< HEAD
           <th>메뉴 경로</th>
-=======
->>>>>>> origin/sample6-0
           <th>메뉴 수정/삭제</th>
         </tr>
       </thead>
@@ -41,10 +35,7 @@
           <td class="text-center">{{ menuItem.MENU_ICON }}</td>
           <td class="text-center">{{ menuItem.MENU_SEQ }}</td>
           <td class="text-center">{{ menuItem.MENU_SEPARATOR }}</td>
-<<<<<<< HEAD
-          <td class="text-center">/ {{ menuItem.MENU_LABEL }}</td>
-=======
->>>>>>> origin/sample6-0
+          <td class="text-center"> {{ menuItem.MENU_PATH }}</td>
           <td class="text-center">
             <div class="q-pa-md q-gutter-y-md column items-center">
               <q-btn-group push>
@@ -81,19 +72,15 @@
               clearable
               :disable="insert"
             />
-<<<<<<< HEAD
             <q-input
               label="경로"
               clearable
+              v-model="menuData.path"
             />
             <div class="q-gutter-sm">
               <q-radio v-model="menuData.sep" val=true label="사용" />
               <q-radio v-model="menuData.sep" val=false label="미사용" />
-=======
-            <div class="q-gutter-sm">
-              <q-radio v-model="menuData.sep" val="true" label="사용" />
-              <q-radio v-model="menuData.sep" val="false" label="미사용" />
->>>>>>> origin/sample6-0
+
             </div>
           </div>
 
@@ -138,17 +125,16 @@ export default {
       seq: "",
       sep: "false",
       num: "",
+      path:"",
     });
 
     const reform = () => {
       menuData.label = "";
       menuData.icon = "";
       menuData.sep = "false";
-<<<<<<< HEAD
       menuData.seq = "";
       menuData.num = "";
-=======
->>>>>>> origin/sample6-0
+      menuData.path ="";
     };
 
     const getMenu = () => {
@@ -168,12 +154,9 @@ export default {
         MENU_LABEL: menuData.label,
         MENU_ICON: menuData.icon,
         MENU_SEQ: menuData.seq,
-<<<<<<< HEAD
         MENU_SEPARATOR: menuData.sep ,
-=======
-        MENU_SEPARATOR: menuData.sep,
->>>>>>> origin/sample6-0
         MENU_NUM: menuData.num,
+        MENU_PATH: menuData.path,
       };
       callUrl("/menuSave", param)
         .then((response) => {
@@ -199,19 +182,13 @@ export default {
 
     //수정 메서드
     const edit = (index) => {
-<<<<<<< HEAD
       menuData.label = list.menuList[index].MENU_LABEL.trim();
       menuData.icon = list.menuList[index].MENU_ICON.trim();
       menuData.seq = list.menuList[index].MENU_SEQ;
       menuData.sep = (list.menuList[index].MENU_SEPARATOR + "").trim();
-=======
-      menuData.label = list.menuList[index].MENU_LABEL;
-      menuData.icon = list.menuList[index].MENU_ICON;
-      menuData.seq = list.menuList[index].MENU_SEQ;
-      menuData.sep = list.menuList[index].MENU_SEPARATOR;
->>>>>>> origin/sample6-0
-      menuData.num = list.menuList[index].MENU_NUM;
-    };
+     menuData.num = list.menuList[index].MENU_NUM;
+     menuData.path = list.menuList[index].MENU_PATH
+      };
 
     onMounted(() => {
       getMenu();

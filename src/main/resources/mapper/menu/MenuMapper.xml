@@ -10,17 +10,16 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="MENU_NUM">
-        insert into BT_MENU (MENU_LABEL, MENU_ICON, MENU_SEPARATOR,MENU_SEQ) values (#{MENU_LABEL}, #{MENU_ICON}, #{MENU_SEPARATOR},#{MENU_SEQ})
+        insert into BT_MENU (MENU_LABEL, MENU_ICON, MENU_SEPARATOR,MENU_SEQ,MENU_PATH) values (#{MENU_LABEL}, #{MENU_ICON}, #{MENU_SEPARATOR},#{MENU_SEQ},#{MENU_PATH})
     </insert>
 
     <update id="update">
-        update BT_MENU set MENU_LABEL = #{MENU_LABEL}, MENU_ICON = #{MENU_ICON}, MENU_SEQ = #{MENU_SEQ}, MENU_SEPARATOR = #{MENU_SEPARATOR} where MENU_NUM = #{MENU_NUM}
+        update BT_MENU set MENU_LABEL = #{MENU_LABEL}, MENU_ICON = #{MENU_ICON}, MENU_SEQ = #{MENU_SEQ}, MENU_SEPARATOR = #{MENU_SEPARATOR} , MENU_PATH = #{MENU_PATH} where MENU_NUM = #{MENU_NUM}
     </update>
 
     <update id="updateDel">
         update BT_MENU set MENU_DEL_YN = 'Y' where MENU_NUM = #{MENU_NUM}
     </update>
-
     <delete id="delete">
         delete from BT_MENU where MENU_NUM = #{MENU_NUM}
     </delete>
