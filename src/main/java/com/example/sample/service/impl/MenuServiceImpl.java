@@ -1,42 +1,60 @@
 package com.example.sample.service.impl;
 
+import com.example.sample.mapper.MenuMapper;
 import com.example.sample.model.MenuVO;
-import com.example.sample.repository.MenuRepository;
 import com.example.sample.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class MenuServiceImpl implements MenuService {
 
+
     @Autowired
-    private MenuRepository menuRepository;
+    private MenuMapper menuMapper;
+
     @Override
-    public Iterable<MenuVO> list(Sort sort) {
-        return menuRepository.findAll(sort);
+    public List<MenuVO> list() {
+        return menuMapper.list();
     }
 
     @Override
-    public Optional<MenuVO> detail(MenuVO menuVO) {
-        return  menuRepository.findById(menuVO.getMENU_SEQ());
+    public MenuVO detail(MenuVO menuVO) {
+        return menuMapper.detail(menuVO);
     }
 
     @Override
-    public MenuVO insert(MenuVO menuVO) {
-        return menuRepository.save(menuVO);
+    @Transactional
+    public int insert(MenuVO menuVO) {
+        int maxSeq = menuMapper.maxSeq();
+        menuVO.setMENU_SEQ(maxSeq+1);
+        int num = menuMapper.insert(menuVO);
+        return num;
     }
 
     @Override
-    public MenuVO update(MenuVO menuVO) {
-        return menuRepository.save(menuVO);
+    @Transactional
+    public int update(MenuVO menuVO) {
+        int num = menuMapper.update(menuVO);
+        return num;
+
     }
 
     @Override
-    public MenuVO delete(MenuVO menuVO) {
-        menuRepository.delete(menuVO);
-        return menuVO;
+    @Transactional
+    public int delete(MenuVO menuVO) {
+        int num = menuMapper.delete(menuVO);
+        return num;
     }
+
+    @Override
+    public int updateDel(MenuVO menuVO) {
+       int num =  menuMapper.updateDel(menuVO);
+        return num;
+    }
+
+
 }

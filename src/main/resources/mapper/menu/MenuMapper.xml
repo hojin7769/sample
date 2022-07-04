@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sample.mapper.MenuMapper">
+    <select id="list" resultType="MenuVO">
+        select * from BT_MENU where MENU_DEL_YN = 'N' order by MENU_SEQ asc
+    </select>
+
+    <select id="detail" resultType="MenuVO" parameterType="MenuVO">
+        select * from BT_MENU where MENU_NUM = #{MENU_NUM}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="MENU_NUM">
+        insert into BT_MENU (MENU_LABEL, MENU_ICON, MENU_SEPARATOR,MENU_SEQ,MENU_PATH) values (#{MENU_LABEL}, #{MENU_ICON}, #{MENU_SEPARATOR},#{MENU_SEQ},#{MENU_PATH})
+    </insert>
+
+    <update id="update">
+        update BT_MENU set MENU_LABEL = #{MENU_LABEL}, MENU_ICON = #{MENU_ICON}, MENU_SEQ = #{MENU_SEQ}, MENU_SEPARATOR = #{MENU_SEPARATOR} , MENU_PATH = #{MENU_PATH} where MENU_NUM = #{MENU_NUM}
+    </update>
+
+    <update id="updateDel">
+        update BT_MENU set MENU_DEL_YN = 'Y' where MENU_NUM = #{MENU_NUM}
+    </update>
+    <delete id="delete">
+        delete from BT_MENU where MENU_NUM = #{MENU_NUM}
+    </delete>
+
+    <select id="maxSeq" resultType="int">
+        SELECT MAX(MENU_SEQ)
+        FROM BT_MENU
+        WHERE MENU_DEL_YN='N'
+    </select>
+</mapper>

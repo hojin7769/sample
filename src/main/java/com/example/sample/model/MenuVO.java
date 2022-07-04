@@ -1,16 +1,15 @@
 package com.example.sample.model;
 
 import lombok.Data;
-import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@Table("BT_MENU")
 public class MenuVO {
 
-    private String MENU_LABLE;
+    private int MENU_NUM;
+    private String MENU_LABEL;
     private String MENU_ICON;
     private int MENU_SEQ;
-    private String MENU_SEPARATOR;
-    private int MENU_DEL_YN;
-
+    private Boolean MENU_SEPARATOR;
+    private String MENU_DEL_YN;
+    private String MENU_PATH;
 }
