@@ -39,42 +39,9 @@
 			</tbody>
 		</q-markup-table>
 		<div class="q-pa-md q-gutter-y-md column items-end">
-			<q-btn-group push>
-				<q-btn push label="목록" @click="listback" />
-				<q-btn push label="수정" @click="dialog = true" />
-				<q-btn push label="삭제" @click="deleteSeq" />
-			</q-btn-group>
+			<click-button :data = "data" v-on:tt="val => dialog = val"></click-button>
 		</div>
-
-		<q-dialog v-model="dialog">
-			<q-card style="width: 400px">
-				<div style="text-align: center">
-					<h5>수정 페이지</h5>
-				</div>
-				<div class="q-pa-md">
-					<div class="q-gutter-md" style="max-width: 300px; margin: auto">
-						<q-input v-model="data.writer" label="글쓴이" clearable />
-						<q-input v-model="data.title" label="제목" clearable />
-						<q-input v-model="data.content" label="글내용" clearable />
-					</div>
-
-					<q-card-section
-						class="row q-gutter-sm items-center"
-						style="margin: auto; width: 300px"
-					>
-						<q-btn label="수정" color="primary" icon-right="edit" @click="save">
-						</q-btn>
-						<q-btn
-							label="창 닫기"
-							color="primary"
-							v-close-popup
-							icon-right="close"
-							@click="getList"
-						/>
-					</q-card-section>
-				</div>
-			</q-card>
-		</q-dialog>
+		<edit-modal :dialog = 'dialog'  :data = 'data' v-on:backModal="val => dialog = val"></edit-modal>
 	</div>
 </template>
 ;
@@ -84,6 +51,8 @@ import { onMounted, reactive, ref } from 'vue';
 import { callUrl } from '../assets/js/ui.js';
 import axios from 'axios';
 import router from '../router/index.js';
+import ClickButton from '../components/button/ClickButton.vue';
+import EditModal from '../components/modal/EditModal.vue';
 
 export default {
 	name: 'listDetail',
@@ -93,6 +62,10 @@ export default {
 			default: 0,
 		},
 	},
+	  components:{
+    "click-button":ClickButton,
+		"edit-modal":EditModal,
+  },
 	setup(props) {
 		const data = reactive({
 			seq: '',
@@ -101,6 +74,7 @@ export default {
 			writer: '',
 			writeDay: '',
 		});
+		const dialog =  ref(false);
 		const getList = () => {
 			const params = reactive({
 				NO_SEQ: props.NO_SEQ,
@@ -121,42 +95,44 @@ export default {
 		};
 		onMounted(() => {
 			getList();
+			
 		});
+		
 		return {
 			data,
 			getList,
-			dialog: ref(false),
+			dialog,
 		};
 	},
 	mounted() {},
 	updated() {},
 	methods: {
-		save() {
-			const param = {
-				NO_SEQ: this.data.seq,
-				ID_USER: this.data.writer,
-				DS_TITLE: this.data.title,
-				DS_CONTENT: this.data.content,
-				DT_INSERT: this.data.writeDay,
-				MapperId: 'BoardMapper.update',
-			};
+		// save() {
+		// 	const param = {
+		// 		NO_SEQ: this.data.seq,
+		// 		ID_USER: this.data.writer,
+		// 		DS_TITLE: this.data.title,
+		// 		DS_CONTENT: this.data.content,
+		// 		DT_INSERT: this.data.writeDay,
+		// 		MapperId: 'BoardMapper.update',
+		// 	};
 
-			callUrl('save', param)
-				.then(response => {
-					if (response.status == '200') {
-						alert('저장이 완료되었습니다.');
-						this.getList;
-						this.dialog = false;
-					}
-				})
-				.catch(function (error) {
-					console.log(param);
-					console.log(error.request);
-					console.log(error.message);
-					console.log(error.response);
-				});
-		},
-
+		// 	callUrl('save', param)
+		// 		.then(response => {
+		// 			if (response.status == '200') {
+		// 				alert('저장이 완료되었습니다.');
+		// 				this.getList;
+		// 				this.dialog = false;
+		// 			}
+		// 		})
+		// 		.catch(function (error) {
+		// 			console.log(param);
+		// 			console.log(error.request);
+		// 			console.log(error.message);
+		// 			console.log(error.response);
+		// 		});
+		// },
+		
 		listback() {
 			router.addRoute({
 				component: () => import('../views/ListView.vue'),

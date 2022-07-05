@@ -4,11 +4,11 @@
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="drawer = !drawer" />
 
-        <q-toolbar-title>
+        <q-toolbar-title @click="goHome">
           <q-avatar>
-            <img src="https://w7.pngwing.com/pngs/739/102/png-transparent-google-chrome-computer-icons-chrome-web-store-web-browser-world-wide-web-logo-internet-google-chrome-thumbnail.png" />
+            <img src="https://w7.pngwing.com/pngs/739/102/png-transparent-google-chrome-computer-icons-chrome-web-store-web-browser-world-wide-web-logo-internet-google-chrome-thumbnail.png"  />
           </q-avatar>
-          TESTWEB-APP
+          TESTWEB-APP   
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -21,6 +21,7 @@
       bordered
       class="bg-grey-3"
     >
+
       <!-- drawer content -->
       <q-scroll-area class="fit">
         <q-list>
@@ -107,6 +108,9 @@ export default {
       router.push("/" + path);
 
     }
+    const goHome = () => {
+      location.href="/"
+    }
     onMounted(() => {
       getMenu();
       goRef();
@@ -120,6 +124,7 @@ export default {
       abc,
       data,
       goRef,
+      goHome,
     };
   },
 };

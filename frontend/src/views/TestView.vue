@@ -1,4 +1,8 @@
 <template>
-  <div>g하이</div>
+<div>
+Test Page
+</div>
 </template>
+<script>
+</script>
 <style scoped></style>
