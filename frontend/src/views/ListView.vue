@@ -13,7 +13,7 @@
       bordered
     >
       <template v-slot:top-right>
-        <q-btn color="primary" label="글쓰기" @click="writePage"/>
+        <q-btn color="primary" label="글쓰기" @click="writePage" />
       </template>
     </q-table>
   </div>
@@ -22,17 +22,9 @@
 import { reactive, ref } from "vue";
 import { onMounted } from "vue";
 import axios from "axios";
-import { date } from "quasar";
 import router from "../router";
 
-
-
-export default {
-  name: "SampleData",
-  setup() {
-
-
-    const columns = [
+const columns = [
   {
     name: "NO_SEQ",
     label: "글번호",
@@ -47,28 +39,39 @@ export default {
     label: "작성일자",
     align: "center",
     field: "DT_INSERT",
-    format :(val)=> betweenDays(val) + '일전' ,
-    //-,
+    format: (val) =>
+      betweenDays(val) == 0 ? "방금" : betweenDays(val) + "일전",
   },
 ];
 
+const betweenDays = (val) => {
+  let now = new Date();
+
+  let year = now.getFullYear();
+  let month = now.getMonth();
+  let day = now.getDate();
+  let stDay = new Date(val);
+  let endDay = new Date(year, month, day);
+  let btMs = endDay.getTime() - stDay.getTime();
+  let btDay = btMs / (1000 * 60 * 60 * 24);
+  return Math.floor(btDay + 1);
+};
+
+export default {
+  name: "SampleData",
+  setup() {
     const data = reactive({
       boardList: [],
     });
-    //list를 받아오는 함수
-    const getList = () => {
+    const getList = async () => {
       const sndData = {
         MapperId: "BoardMapper.list",
       };
-      axios
-        .post("http://localhost:8090/api/list", sndData)
-        .then((response) => {
-          data.boardList = response.data;
-          console.log(data.boardList);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      const response = await axios.post(
+        "http://localhost:8090/api/list",
+        sndData
+      );
+      data.boardList = response.data;
     };
     //row를 클릭했을때 디테일 페이지로 router를 만들어서 보내는 함수
     const textPrint = (event, row, index) => {
@@ -76,7 +79,7 @@ export default {
       router.addRoute({
         component: () => import("../views/DetailView.vue"),
         name: "listDetail",
-        path: "/listDetail/"+seq,
+        path: "/listDetail/" + seq,
         props: true,
       });
       router.push({ name: "listDetail", params: { NO_SEQ: seq } });
@@ -92,22 +95,6 @@ export default {
       router.push({ name: "writer" });
     };
 
-    const betweenDays = (val) => {
-      let now = new Date();
-      
-      let year = now.getFullYear();
-      let month = now.getMonth();
-      let day = now.getDate();
-
-      let stDay = new Date(val);
-      let endDay = new Date(year,month,day);
-      let btMs = endDay.getTime() - stDay.getTime();
-
-      let btDay = btMs/(1000*60*60*24);
-
-      return Math.floor(btDay+1);
-      
-    }
     //셋업에서 정의를 내리고 마운트됐을때 실행한다.
     onMounted(() => {
       getList();
@@ -120,7 +107,6 @@ export default {
       textPrint,
       writePage,
       betweenDays,
-      columns,
       pagination: ref({
         rowsPerPage: 10,
       }),

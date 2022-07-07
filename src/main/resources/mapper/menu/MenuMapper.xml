@@ -29,4 +29,9 @@
         FROM BT_MENU
         WHERE MENU_DEL_YN='N'
     </select>
+
+    <select id="createTable" parameterType="map">
+        ${create_table}
+    </select>
+
 </mapper>

@@ -4,9 +4,11 @@
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="drawer = !drawer" />
 
-        <q-toolbar-title>
+        <q-toolbar-title @click="goHome">
           <q-avatar>
-            <img src="https://w7.pngwing.com/pngs/739/102/png-transparent-google-chrome-computer-icons-chrome-web-store-web-browser-world-wide-web-logo-internet-google-chrome-thumbnail.png" />
+            <img
+              src="https://w7.pngwing.com/pngs/739/102/png-transparent-google-chrome-computer-icons-chrome-web-store-web-browser-world-wide-web-logo-internet-google-chrome-thumbnail.png"
+            />
           </q-avatar>
           TESTWEB-APP
         </q-toolbar-title>
@@ -27,9 +29,11 @@
           <template v-for="(menuItem, index) in list.menuList" :key="index">
             <q-item
               clickable
-              :active= "data === menuItem.MENU_PATH"
+              :active="data === menuItem.MENU_PATH"
               v-ripple
-              @click="(data = menuItem.MENU_PATH), abc(data,menuItem.MENU_LABEL)"
+              @click="
+                (data = menuItem.MENU_PATH), abc(data, menuItem.MENU_LABEL)
+              "
             >
               <q-item-section avatar>
                 <q-icon :name="menuItem.MENU_ICON" />
@@ -52,6 +56,7 @@ import router from "../../router/index.js";
 import axios from "axios";
 
 export default {
+  name: "headerView",
   setup() {
     const list = reactive({
       menuList: [],
@@ -69,7 +74,7 @@ export default {
     };
     const path = window.location.pathname.substring(1);
     const data = ref(path);
-    const abc = function (data , label) {
+    const abc = function (data, label) {
       var repactLink = true;
       router.options.routes.forEach((route) => {
         if (route.name == label) {
@@ -79,7 +84,7 @@ export default {
       });
       if (repactLink) {
         router.addRoute({
-          component: () => import("../" + label.trim() + "View.vue"),
+          component: () => import("../../views/" + label.trim() + "View.vue"),
           name: label,
           path: "/" + data,
         });
@@ -87,30 +92,31 @@ export default {
       router.push("/" + data);
     };
 
-    const goRef = () =>{
-       var path = window.location.pathname.substring(1);
-       var newStr = path.replace(/^[a-z]/, (char) => char.toUpperCase());
-       var repactLink = true;
+    const goRef = () => {
+      var path = window.location.pathname.substring(1);
+      var newStr = path.replace(/^[a-z]/, (char) => char.toUpperCase());
+      var repactLink = true;
       router.options.routes.forEach((route) => {
-        if (route.name == newStr ) {
+        if (route.name == newStr) {
           // eslint-disable-next-line no-undef
           repactLink = false;
         }
       });
       if (repactLink) {
         router.addRoute({
-          component: () => import("../" + newStr.trim() + "View.vue"),
+          component: () => import("../../views/" + newStr.trim() + "View.vue"),
           name: newStr,
           path: "/" + path,
         });
       }
       router.push("/" + path);
-
-    }
+    };
+    const goHome = () => {
+      location.href = "/";
+    };
     onMounted(() => {
       getMenu();
       goRef();
-
     });
 
     return {
@@ -120,6 +126,7 @@ export default {
       abc,
       data,
       goRef,
+      goHome,
     };
   },
 };
