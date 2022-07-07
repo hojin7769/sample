@@ -39,16 +39,16 @@
         <tr style="height: 100px">
           <td class="text-center title" colspan="1">글내용</td>
           <td class="text-left" colspan="4">
-             <q-input
-                v-model="data.content"
-                filled
-                clearable
-                type="textarea"
-                color="red-12"
-                :shadow-text="textareaShadowText"
-                @keydown="processTextareaFill"
-                @focus="processTextareaFill"
-           />
+            <q-input
+              v-model="data.content"
+              filled
+              clearable
+              type="textarea"
+              color="red-12"
+              :shadow-text="textareaShadowText"
+              @keydown="processTextareaFill"
+              @focus="processTextareaFill"
+            />
           </td>
         </tr>
       </tbody>

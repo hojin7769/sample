@@ -6,45 +6,45 @@
   </q-btn-group>
 </template>
 <script>
-import { reactive } from 'vue';
-import { callUrl } from '../../assets/js/ui';
-import router from '../../router';
+import { reactive } from "vue";
+import { callUrl } from "../../assets/js/ui";
+import router from "../../router";
 export default {
-  name: 'ClickButton',
+  name: "ClickButton",
   props: {
     data: {
       seq: {
         type: String,
-        default: '0'
+        default: "0",
       },
       title: {
         type: String,
-        default: '0'
+        default: "0",
       },
       content: {
         type: String,
-        default: '0'
+        default: "0",
       },
       writer: {
         type: String,
-        default: '0'
+        default: "0",
       },
       writeDay: {
         type: String,
-        default: '0'
+        default: "0",
       },
-    }
+    },
   },
-  emits: ['tt'],
+  emits: ["tt"],
   setup(props) {
     const listback = () => {
       router.addRoute({
-        component: () => import('../..//views/ListView.vue'),
-        name: 'list',
-        path: '/list',
+        component: () => import("../..//views/ListView.vue"),
+        name: "list",
+        path: "/list",
         props: true,
       });
-      router.push({ name: 'list' });
+      router.push({ name: "list" });
     };
     const deleteSeq = () => {
       const param = {
@@ -52,14 +52,14 @@ export default {
         DS_TITLE: props.data.title,
         DS_CONTENT: props.data.content,
         ID_USER: props.data.writer,
-        MapperId: 'BoardMapper.delete',
+        MapperId: "BoardMapper.delete",
       };
-      if (!confirm('삭제하시겠습니까?')) return false;
-      callUrl('save', param)
+      if (!confirm("삭제하시겠습니까?")) return false;
+      callUrl("save", param)
         .then(function (response) {
-          if (response.status == '200') {
-            alert('삭제되었습니다.');
-            location.href = '/list';
+          if (response.status == "200") {
+            alert("삭제되었습니다.");
+            location.href = "/list";
           }
         })
         .catch(function (error) {
@@ -67,19 +67,14 @@ export default {
         });
     };
     const onEmit = function () {
-      this.$emit("print", true)
-    }
-
+      this.$emit("print", true);
+    };
 
     return {
       listback,
       deleteSeq,
       onEmit,
-    }
-
-
-
+    };
   },
-
-}
+};
 </script>

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -51,9 +53,19 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional
     public int updateDel(MenuVO menuVO) {
        int num =  menuMapper.updateDel(menuVO);
         return num;
+    }
+
+    @Override
+    public Map<String, Object> createTable(Map<String, Object> map) {
+        Map<String,Object> data =  new HashMap<>();
+        data.put("data",menuMapper.createTable(map));
+        return data;
+
+
     }
 
 
