@@ -25,7 +25,12 @@
               class="q-gutter-md"
               style="max-width: 300px; display: inline-block"
             >
-              <q-input v-model="list[i].value" label="Standard" />
+              <!-- <q-input v-model="list[i].value" label="Standard" /> -->
+              <q-select
+                v-model="list[i].value"
+                :options="options"
+                label="Standard"
+              />
             </div>
             <div
               class="q-pa-md"
@@ -46,10 +51,9 @@
             <a @click="removeRow(i)">Remove</a>
           </div>
         </div>
-        <div>
+        <div style="display: inline">
           <button class="button btn-primary" @click="addRow">Add row</button>
         </div>
-
         <div>
           <button class="button btn-primary" @click="res">sumit</button>
         </div>
@@ -85,6 +89,7 @@
 <script>
 import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
+
 export default {
   name: "SampleData",
   components: {},
@@ -108,9 +113,8 @@ export default {
       });
     };
 
-    const removeRow = (row) => {
-      //console.log(row);
-      list.pop(row);
+    const removeRow = (i) => {
+      list.splice(i, i);
     };
     const res = async () => {
       const param = {
@@ -129,6 +133,7 @@ export default {
       addRow,
       removeRow,
       pk,
+      options: ["int", "char", "bigint", "date", "nchar"],
     };
   },
   created() {},
