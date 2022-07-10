@@ -35,3 +35,15 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Vuejs ###
+# Recommended template: Node.gitignore
+
+node_modules/
+dist/
+npm-debug.log
+yarn-error.log
+# lock files
+.eslintrc.cjs
+package-lock.json
+.eslintcache
