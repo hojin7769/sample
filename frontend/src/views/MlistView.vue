@@ -37,20 +37,15 @@
           <td class="text-center">
             <div class="q-pa-md q-gutter-y-md column items-center">
               <q-btn-group push>
-                <q-btn
-                  push
-                  label="수정"
-                  @click="(dialog = true), (insert = false), edit(index)"
-                />
-                <q-btn push label="삭제" @click="deleteM(index)" />
+                <q-btn push label="수정" @click="edit(index), db()" />
+                <q-btn push label="삭제" @click="confirm(index)" />
               </q-btn-group>
             </div>
           </td>
         </tr>
       </draggable>
     </q-markup-table>
-
-    <q-dialog v-model="dialog">
+    <!-- <q-dialog v-model="dialog">
       <q-card style="width: 400px">
         <div style="text-align: center">
           <h5>메뉴 생성</h5>
@@ -85,20 +80,22 @@
           </q-card-section>
         </div>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
     <!-- <uploadCom :alert="alert"  :confirm="confirm" ></uploadCom> -->
   </div>
 </template>
 <script>
-import axios from "axios";
-import { onMounted, reactive, ref } from "vue";
-import { callUrl } from "../assets/js/menu";
-import router from "../router";
-import { VueDraggableNext } from "vue-draggable-next";
-import UploadCompVue from "../components/alert/UploadComp.vue";
+import axios from 'axios';
+import { onMounted, reactive, ref } from 'vue';
+import { callUrl } from '../assets/js/menu';
+import router from '../router';
+import { VueDraggableNext } from 'vue-draggable-next';
+import UploadCompVue from '../components/alert/UploadComp.vue';
+import { useQuasar } from 'quasar';
+import EditMenuVue from '../components/modal/EditMenu.vue';
 
 export default {
-  name: "SampleData",
+  name: 'SampleData',
   components: {
     draggable: VueDraggableNext,
     // uploadCom : UploadCompVue,
@@ -111,24 +108,24 @@ export default {
     // const alert = ref(false);
     // const confirm = ref(false);
     const menuData = reactive({
-      label: "",
-      icon: "",
-      seq: "",
-      sep: "false",
-      num: "",
-      path: "",
+      label: '',
+      icon: '',
+      seq: '',
+      sep: 'false',
+      num: '',
+      path: '',
     });
     const reform = () => {
-      menuData.label = "";
-      menuData.icon = "";
-      menuData.sep = "false";
-      menuData.seq = "";
-      menuData.num = "";
-      menuData.path = "";
+      menuData.label = '';
+      menuData.icon = '';
+      menuData.sep = 'false';
+      menuData.seq = '';
+      menuData.num = '';
+      menuData.path = '';
     };
     const getMenu = async () => {
       await axios
-        .post("http://localhost:8090/menu/menuList")
+        .post('http://localhost:8090/menu/menuList')
         .then((response) => {
           list.menuList = response.data;
           console.log(list.menuList);
@@ -147,7 +144,7 @@ export default {
         MENU_NUM: menuData.num,
         MENU_PATH: menuData.path,
       };
-      callUrl("/menuSave", param)
+      callUrl('/menuSave', param)
         .then((response) => {
           list.menuList = response.data;
           router.go();
@@ -159,7 +156,7 @@ export default {
     };
 
     const saveparam = async (param) => {
-      await callUrl("/menuSave", param)
+      await callUrl('/menuSave', param)
         .then((response) => {
           list.menuList = response.data;
           router.go();
@@ -170,13 +167,13 @@ export default {
         });
     };
     const deleteM = (index) => {
-      if (!confirm("삭제하시겠습니까?")) return false;
+      if (!confirm('삭제하시겠습니까?')) return false;
       // alert.value = true;
       // confirm.value = true;
       // console.log(alert);
-      callUrl("/delete", list.menuList[index])
+      callUrl('/delete', list.menuList[index])
         .then((response) => {
-          alert("삭제되었습니다.");
+          alert('삭제되었습니다.');
           router.go();
         })
         .catch(function (error) {
@@ -205,11 +202,85 @@ export default {
       menuData.label = list.menuList[index].MENU_LABEL;
       menuData.icon = list.menuList[index].MENU_ICON.trim();
       menuData.seq = list.menuList[index].MENU_SEQ;
-      menuData.sep = (list.menuList[index].MENU_SEPARATOR + "").trim();
+      menuData.sep = (list.menuList[index].MENU_SEPARATOR + '').trim();
       menuData.num = list.menuList[index].MENU_NUM;
       menuData.path = list.menuList[index].MENU_PATH;
     };
 
+    const $q = useQuasar();
+
+    const db = () => {
+      $q.dialog({
+        component: EditMenuVue,
+        parent: this,
+        componentProps: {
+          menuData: menuData,
+          com: true,
+        },
+      })
+        .onOk((menuData) => {
+          console.log('OK');
+          console.log(menuData);
+          const param = {
+            MENU_LABEL: menuData.label,
+            MENU_ICON: menuData.icon,
+            MENU_SEQ: menuData.seq,
+            MENU_SEPARATOR: menuData.sep,
+            MENU_NUM: menuData.num,
+            MENU_PATH: menuData.path,
+          };
+          callUrl('/menuSave', param)
+            .then((response) => {
+              list.menuList = response.data;
+              router.go();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        })
+        .onCancel(() => {
+          console.log('Cancel');
+        })
+        .onDismiss(() => {
+          console.log('Called on OK or Cancel');
+        });
+    };
+    const confirm = (index) => {
+      $q.dialog({
+        title: '삭제',
+        message:
+          '해당 ' + list.menuList[index].MENU_LABEL + '을/를 삭제하시겠습니까?',
+        cancel: true,
+        persistent: true,
+      })
+        .onOk(() => {
+          callUrl('/delete', list.menuList[index])
+            .then((response) => {
+              positioned;
+              router.go();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        })
+        .onOk(() => {
+          // console.log('>>>> second OK catcher')
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        });
+    };
+
+    function positioned() {
+      $q.dialog({
+        title: '알림',
+        message: '삭제가 완료 되었습니다.',
+        position: 'top',
+      });
+    }
     onMounted(() => {
       getMenu();
     });
@@ -217,7 +288,7 @@ export default {
       getMenu,
       list,
       dialog,
-      test: ref("test"),
+      test: ref('test'),
       menuData,
       save,
       deleteM,
@@ -228,6 +299,7 @@ export default {
       saveparam,
       alert,
       confirm,
+      db,
     };
   },
 };
