@@ -87,28 +87,28 @@
   </div>
 </template>
 <script>
-import { onMounted, reactive, ref } from "vue";
-import axios from "axios";
+import { onMounted, reactive, ref } from 'vue';
+import axios from 'axios';
 
 export default {
-  name: "SampleData",
+  name: 'SampleData',
   components: {},
   data() {
     return {};
   },
   setup() {
     const table_data = reactive({
-      TABLE_NAME: "",
+      TABLE_NAME: '',
     });
 
-    const list = reactive([{ colum: "", value: "", null_check: false }]);
+    const list = reactive([{ colum: '', value: '', null_check: false }]);
 
-    const pk = ref("");
+    const pk = ref('');
 
     const addRow = () => {
       list.push({
-        colum: "",
-        value: "",
+        colum: '',
+        value: '',
         null_check: false,
       });
     };
@@ -122,7 +122,7 @@ export default {
         Table_List: list,
         Table_pk: pk.value,
       };
-      await axios.post("http://localhost:8090/menu/createTable", param);
+      await axios.post('http://localhost:8090/menu/createTable', param);
       console.log(res);
     };
     onMounted(() => {});
@@ -133,7 +133,7 @@ export default {
       addRow,
       removeRow,
       pk,
-      options: ["int", "char", "bigint", "date", "nchar"],
+      options: ['int', 'char', 'bigint', 'date', 'nchar'],
     };
   },
   created() {},
