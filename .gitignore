@@ -44,7 +44,3 @@ dist/
 npm-debug.log
 yarn-error.log
 # lock files
-./frontend/package-lock.json
-./frontend/.eslintrc.cjs
-frontend/src/main.js
-package-lock.json
