@@ -7,7 +7,7 @@
       <div class="q-pa-md">
         <div class="q-gutter-md" style="max-width: 300px; margin: auto">
           <q-input
-            v-model="$props.menuData.label"
+            v-model="$props.menuData.name"
             label="메뉴라벨"
             clearable
             hint="첫글자 대문자"
@@ -18,6 +18,16 @@
             clearable
           />
           <q-input label="경로" clearable v-model="$props.menuData.path" />
+          <q-input
+            label="비교경로"
+            clearable
+            v-model="$props.menuData.com_path"
+          />
+          <q-input
+            label="파일경로"
+            clearable
+            v-model="$props.menuData.file_path"
+          />
           <div class="q-gutter-sm">
             <q-radio v-model="$props.menuData.sep" val="true" label="사용" />
             <q-radio v-model="$props.menuData.sep" val="false" label="미사용" />

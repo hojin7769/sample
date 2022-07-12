@@ -29,17 +29,22 @@
           <template v-for="(menuItem, index) in list.menuList" :key="index">
             <q-item
               clickable
-              :active="data === menuItem.MENU_PATH"
+              :active="data === menuItem.MENU_COM_PATH"
               v-ripple
               @click="
-                (data = menuItem.MENU_PATH), abc(data, menuItem.MENU_LABEL)
+                (data = menuItem.MENU_PATH),
+                  abc(
+                    menuItem.MENU_NAME,
+                    menuItem.MENU_PATH,
+                    menuItem.MENU_FILE_PATH
+                  )
               "
             >
               <q-item-section avatar>
                 <q-icon :name="menuItem.MENU_ICON" />
               </q-item-section>
               <q-item-section>
-                {{ menuItem.MENU_LABEL }}
+                {{ menuItem.MENU_NAME }}
               </q-item-section>
             </q-item>
             <q-separator :key="'sep' + index" v-if="menuItem.MENU_SEPARATOR" />
@@ -51,19 +56,19 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref } from "vue";
-import router from "../../router/index.js";
-import axios from "axios";
+import { onMounted, reactive, ref } from 'vue';
+import router from '../../router/index.js';
+import axios from 'axios';
 
 export default {
-  name: "headerView",
+  name: 'headerView',
   setup() {
     const list = reactive({
       menuList: [],
     });
     const getMenu = () => {
       axios
-        .post("http://localhost:8090/menu/menuList")
+        .post('http://localhost:8090/menu/menuList')
         .then((response) => {
           list.menuList = response.data;
           console.log(list.menuList);
@@ -74,49 +79,49 @@ export default {
     };
     const path = window.location.pathname.substring(1);
     const data = ref(path);
-    const abc = function (data, label) {
+    const abc = function (name, path, file_path) {
       var repactLink = true;
       router.options.routes.forEach((route) => {
-        if (route.name == label) {
+        if (route.name == name) {
           // eslint-disable-next-line no-undef
           repactLink = false;
         }
       });
       if (repactLink) {
         router.addRoute({
-          component: () => import("../../views/" + label.trim() + "View.vue"),
-          name: label,
-          path: "/" + data,
+          component: () => import('../../views/' + file_path + '.vue'),
+          name: name,
+          path: '/' + path,
         });
       }
-      router.push("/" + data);
+      router.push('/' + path);
     };
 
-    const goRef = () => {
-      var path = window.location.pathname.substring(1);
-      var newStr = path.replace(/^[a-z]/, (char) => char.toUpperCase());
-      var repactLink = true;
-      router.options.routes.forEach((route) => {
-        if (route.name == newStr) {
-          // eslint-disable-next-line no-undef
-          repactLink = false;
-        }
-      });
-      if (repactLink) {
-        router.addRoute({
-          component: () => import("../../views/" + newStr.trim() + "View.vue"),
-          name: newStr,
-          path: "/" + path,
-        });
-      }
-      router.push("/" + path);
-    };
+    // const goRef = () => {
+    //   var path = window.location.pathname.substring(1);
+    //   var newStr = path.replace(/^[a-z]/, (char) => char.toUpperCase());
+    //   var repactLink = true;
+    //   router.options.routes.forEach((route) => {
+    //     if (route.name == newStr) {
+    //       // eslint-disable-next-line no-undef
+    //       repactLink = false;
+    //     }
+    //   });
+    //   if (repactLink) {
+    //     router.addRoute({
+    //       component: () => import('../../views/' + newStr.trim() + 'View.vue'),
+    //       name: newStr,
+    //       path: '/' + path,
+    //     });
+    //   }
+    //   router.push('/' + path);
+    // };
     const goHome = () => {
-      location.href = "/";
+      location.href = '/';
     };
     onMounted(() => {
       getMenu();
-      goRef();
+      // goRef();
     });
 
     return {
@@ -125,7 +130,7 @@ export default {
       getMenu,
       abc,
       data,
-      goRef,
+      // goRef,
       goHome,
     };
   },
