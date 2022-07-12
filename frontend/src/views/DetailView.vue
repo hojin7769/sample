@@ -54,15 +54,15 @@
 ;
 
 <script>
-import { onMounted, reactive, ref } from "vue";
-import { callUrl } from "../assets/js/ui.js";
-import axios from "axios";
-import router from "../router/index.js";
-import ClickButton from "../components/button/ClickButton.vue";
-import EditModal from "../components/modal/EditModal.vue";
+import { onMounted, reactive, ref } from 'vue';
+import { callUrl } from '../assets/js/ui.js';
+import axios from 'axios';
+import router from '../router/index.js';
+import ClickButton from '../components/button/ClickButton.vue';
+import EditModal from '../components/modal/EditModal.vue';
 
 export default {
-  name: "listDetail",
+  name: 'listDetail',
   props: {
     NO_SEQ: {
       type: Number,
@@ -70,25 +70,25 @@ export default {
     },
   },
   components: {
-    "click-button": ClickButton,
-    "edit-modal": EditModal,
+    'click-button': ClickButton,
+    'edit-modal': EditModal,
   },
   setup(props) {
     const data = reactive({
-      seq: "",
-      title: "",
-      content: "",
-      writer: "",
-      writeDay: "",
+      seq: '',
+      title: '',
+      content: '',
+      writer: '',
+      writeDay: '',
     });
     const dialog = ref(false);
     const getList = () => {
       const params = reactive({
         NO_SEQ: props.NO_SEQ,
-        MapperId: "BoardMapper.detail",
+        MapperId: 'BoardMapper.detail',
       });
       axios
-        .post("http://localhost:8090/api/detail", params)
+        .post('http://localhost:8090/api/detail', params)
         .then((response) => {
           data.seq = response.data.data.NO_SEQ;
           data.title = response.data.data.DS_TITLE;

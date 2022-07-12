@@ -26,3 +26,8 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+.eslintrc.cjs
+package-lock.json
+package.json
+src/main.js

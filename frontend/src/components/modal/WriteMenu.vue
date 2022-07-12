@@ -7,30 +7,35 @@
       <div class="q-pa-md">
         <div class="q-gutter-md" style="max-width: 300px; margin: auto">
           <q-input
-            v-model="$props.menuData.name"
+            v-model="menuData.MENU_NAME"
             label="메뉴라벨"
             clearable
             hint="첫글자 대문자"
           />
+          <q-input v-model="menuData.MENU_ICON" label="메뉴아이콘" clearable />
+          <q-input label="경로" clearable v-model="menuData.MENU_PATH" />
           <q-input
-            v-model="$props.menuData.icon"
-            label="메뉴아이콘"
+            label="파일실제경로"
             clearable
+            v-model="menuData.MENU_FILE_PATH"
           />
-          <q-input label="경로" clearable v-model="$props.menuData.path" />
           <q-input
             label="비교경로"
             clearable
-            v-model="$props.menuData.com_path"
-          />
-          <q-input
-            label="파일경로"
-            clearable
-            v-model="$props.menuData.file_path"
+            v-model="menuData.MENU_COM_PATH"
+            hint="경로와 똑같이 입력해 주세여"
           />
           <div class="q-gutter-sm">
-            <q-radio v-model="$props.menuData.sep" val="true" label="사용" />
-            <q-radio v-model="$props.menuData.sep" val="false" label="미사용" />
+            <q-radio
+              v-model="menuData.MENU_SEPARATOR"
+              val="true"
+              label="사용"
+            />
+            <q-radio
+              v-model="menuData.MENU_SEPARATOR"
+              val="false"
+              label="미사용"
+            />
           </div>
         </div>
         <q-card-section
@@ -56,26 +61,25 @@
   </q-dialog>
 </template>
 <script setup>
+import { reactive } from 'vue';
 import { useDialogPluginComponent } from 'quasar';
 
-const props = defineProps({
-  com: {
-    module: 'false',
-    type: Boolean,
-  },
-  menuData: {
-    module: Object,
-  },
-});
-defineExpose({
-  props,
-});
 defineEmits([
   // REQUIRED; need to specify some events that your
   // component will emit through useDialogPluginComponent()
   ...useDialogPluginComponent.emits,
 ]);
 
+const menuData = reactive({
+  MENU_NAME: '',
+  MENU_ICON: '',
+  MENU_SEQ: '',
+  MENU_SEPARATOR: '',
+  MENU_NUM: '',
+  MENU_PATH: '',
+  MENU_FILE_PATH: '',
+  MENU_COM_PATH: '',
+});
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
   useDialogPluginComponent();
 // dialogRef      - Vue ref to be applied to QDialog
@@ -89,7 +93,7 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
 function onOKClick() {
   // on OK, it is REQUIRED to
   // call onDialogOK (with optional payload)
-  onDialogOK(props.menuData);
+  onDialogOK(menuData);
   // or with payload: onDialogOK({ ... })
   // ...and it will also hide the dialog automatically
 }

@@ -62,28 +62,28 @@
   </div>
 </template>
 <script>
-import { reactive, ref } from "vue";
-import { callUrl } from "../assets/js/ui";
-import router from "../router";
+import { reactive, ref } from 'vue';
+import { callUrl } from '../assets/js/ui';
+import router from '../router';
 
 export default {
   setup() {
     const data = reactive({
-      seq: "",
-      title: "",
-      content: "",
-      writer: "",
-      writeDay: "",
+      seq: '',
+      title: '',
+      content: '',
+      writer: '',
+      writeDay: '',
     });
 
     const listback = () => {
       router.addRoute({
-        component: () => import("../views/ListView.vue"),
-        name: "list",
-        path: "/list",
+        component: () => import('../views/ListView.vue'),
+        name: 'list',
+        path: '/list',
         props: true,
       });
-      router.push({ name: "list" });
+      router.push({ name: 'list' });
     };
 
     const save = () => {
@@ -93,13 +93,13 @@ export default {
         DS_TITLE: data.title,
         DS_CONTENT: data.content,
         DT_INSERT: data.writeDay,
-        MapperId: "BoardMapper.insert",
+        MapperId: 'BoardMapper.insert',
       };
 
-      callUrl("save", param)
+      callUrl('save', param)
         .then((response) => {
-          if (response.status == "200") {
-            alert("저장이 완료되었습니다.");
+          if (response.status == '200') {
+            alert('저장이 완료되었습니다.');
             listback();
             this.dialog = false;
           }
@@ -113,7 +113,7 @@ export default {
     };
 
     return {
-      ph: ref(""),
+      ph: ref(''),
       dense: ref(false),
       listback,
       data,

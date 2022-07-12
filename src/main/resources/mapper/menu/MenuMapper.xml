@@ -2,31 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.sample.mapper.MenuMapper">
     <select id="list" resultType="MenuVO">
-        select * from BT_MENU where MENU_DEL_YN = 'N' order by MENU_SEQ asc
+        select MENU_NUM, MENU_NAME, MENU_ICON, MENU_SEQ, MENU_SEPARATOR
+               , MENU_DEL_YN, MENU_PATH, MENU_FILE_PATH, MENU_COM_PATH
+               from HJ_BT_MENU where MENU_DEL_YN = 'N' order by MENU_SEQ asc
     </select>
 
     <select id="detail" resultType="MenuVO" parameterType="MenuVO">
-        select * from BT_MENU where MENU_NUM = #{MENU_NUM}
+        select MENU_NUM, MENU_NAME, MENU_ICON, MENU_SEQ, MENU_SEPARATOR
+                       , MENU_DEL_YN, MENU_PATH, MENU_FILE_PATH, MENU_COM_PATH
+        from HJ_BT_MENU where MENU_NUM = #{MENU_NUM}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="MENU_NUM">
-        insert into BT_MENU (MENU_LABEL, MENU_ICON, MENU_SEPARATOR,MENU_SEQ,MENU_PATH) values (#{MENU_LABEL}, #{MENU_ICON}, #{MENU_SEPARATOR},#{MENU_SEQ},#{MENU_PATH})
+        insert into HJ_BT_MENU (MENU_NAME, MENU_ICON, MENU_SEPARATOR,MENU_SEQ,MENU_PATH,MENU_COM_PATH,MENU_FILE_PATH) values (#{MENU_NAME}, #{MENU_ICON}, #{MENU_SEPARATOR},#{MENU_SEQ},#{MENU_PATH},#{MENU_COM_PATH},#{MENU_FILE_PATH})
     </insert>
 
     <update id="update">
-        update BT_MENU set MENU_LABEL = #{MENU_LABEL}, MENU_ICON = #{MENU_ICON}, MENU_SEQ = #{MENU_SEQ}, MENU_SEPARATOR = #{MENU_SEPARATOR} , MENU_PATH = #{MENU_PATH} where MENU_NUM = #{MENU_NUM}
+        update HJ_BT_MENU set MENU_NAME = #{MENU_NAME}, MENU_ICON = #{MENU_ICON}, MENU_SEQ = #{MENU_SEQ}, MENU_SEPARATOR = #{MENU_SEPARATOR} , MENU_PATH = #{MENU_PATH}, MENU_FILE_PATH = #{MENU_FILE_PATH}, MENU_COM_PATH = #{MENU_COM_PATH}  where MENU_NUM = #{MENU_NUM}
     </update>
 
     <update id="updateDel">
-        update BT_MENU set MENU_DEL_YN = 'Y' where MENU_NUM = #{MENU_NUM}
+        update HJ_BT_MENU set MENU_DEL_YN = 'Y' where MENU_NUM = #{MENU_NUM}
     </update>
     <delete id="delete">
-        delete from BT_MENU where MENU_NUM = #{MENU_NUM}
+        delete from HJ_BT_MENU where MENU_NUM = #{MENU_NUM}
     </delete>
 
     <select id="maxSeq" resultType="int">
         SELECT MAX(MENU_SEQ)
-        FROM BT_MENU
+        FROM HJ_BT_MENU
         WHERE MENU_DEL_YN='N'
     </select>
 

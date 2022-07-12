@@ -1,51 +1,60 @@
 <template>
-  <div>
-    <q-markup-table>
-      <thead>
-        <tr class="bg-green">
-          <th colspan="5">
-            <div class="row no-wrap items-center">
-              <div class="text-h4 q-ml-md text-white">메뉴 관리</div>
+  <div class="q-pa-md">
+    <q-card class="my-card">
+      <q-markup-table>
+        <thead>
+          <tr class="bg-green">
+            <th colspan="7">
+              <div class="row no-wrap items-center">
+                <div class="text-h4 q-ml-md text-white">메뉴 관리</div>
+              </div>
+            </th>
+            <div class="q-pa-md q-gutter-sm" style="text-align: right">
+              <q-btn
+                padding="md"
+                color="green"
+                round
+                icon="add"
+                @click="writeModal"
+              />
             </div>
-          </th>
-          <div class="q-pa-md q-gutter-sm" style="text-align: right">
-            <q-btn
-              padding="md"
-              color="green"
-              round
-              icon="add"
-              @click="(dialog = true), (insert = true), reform()"
-            />
-          </div>
-        </tr>
-        <tr>
-          <th>메뉴라벨</th>
-          <th>메뉴아이콘</th>
-          <th>메뉴순서</th>
-          <th>메뉴선 유무</th>
-          <th>메뉴 경로</th>
-          <th>메뉴 수정/삭제</th>
-        </tr>
-      </thead>
-      <draggable tag="tbody" v-model="list.menuList" @change="log">
-        <tr v-for="(menuItem, index) in list.menuList" :key="index">
-          <td class="text-center">{{ menuItem.MENU_LABEL }}</td>
-          <td class="text-center">{{ menuItem.MENU_ICON }}</td>
-          <td class="text-center">{{ menuItem.MENU_SEQ }}</td>
-          <td class="text-center">{{ menuItem.MENU_SEPARATOR }}</td>
-          <td class="text-center">{{ menuItem.MENU_PATH }}</td>
-          <td class="text-center">
-            <div class="q-pa-md q-gutter-y-md column items-center">
-              <q-btn-group push>
-                <q-btn push label="수정" @click="edit(index), db()" />
-                <q-btn push label="삭제" @click="confirm(index)" />
-              </q-btn-group>
-            </div>
-          </td>
-        </tr>
-      </draggable>
-    </q-markup-table>
-    <!-- <q-dialog v-model="dialog">
+          </tr>
+          <tr>
+            <th>메뉴라벨</th>
+            <th>메뉴아이콘</th>
+            <th>메뉴순서</th>
+            <th>메뉴선 유무</th>
+            <th>메뉴 경로</th>
+            <th>메뉴 파일경로</th>
+            <th>메뉴 비교경로</th>
+            <th>메뉴 수정/삭제</th>
+          </tr>
+        </thead>
+        <draggable tag="tbody" v-model="list.menuList" @change="log">
+          <tr
+            v-for="(menuItem, index) in list.menuList"
+            :key="index"
+            @dblclick="edit(index), db()"
+          >
+            <td class="text-center">{{ menuItem.MENU_NAME }}</td>
+            <td class="text-center">{{ menuItem.MENU_ICON }}</td>
+            <td class="text-center">{{ menuItem.MENU_SEQ }}</td>
+            <td class="text-center">{{ menuItem.MENU_SEPARATOR }}</td>
+            <td class="text-center">{{ menuItem.MENU_PATH }}</td>
+            <td class="text-center">{{ menuItem.MENU_FILE_PATH }}</td>
+            <td class="text-center">{{ menuItem.MENU_COM_PATH }}</td>
+            <td class="text-center">
+              <div class="q-pa-md q-gutter-y-md column items-center">
+                <q-btn-group push>
+                  <q-btn push label="수정" @click="edit(index), db()" />
+                  <q-btn push label="삭제" @click="confirm(index)" />
+                </q-btn-group>
+              </div>
+            </td>
+          </tr>
+        </draggable>
+      </q-markup-table>
+      <!-- <q-dialog v-model="dialog">
       <q-card style="width: 400px">
         <div style="text-align: center">
           <h5>메뉴 생성</h5>
@@ -81,7 +90,8 @@
         </div>
       </q-card>
     </q-dialog> -->
-    <!-- <uploadCom :alert="alert"  :confirm="confirm" ></uploadCom> -->
+      <!-- <uploadCom :alert="alert"  :confirm="confirm" ></uploadCom> -->
+    </q-card>
   </div>
 </template>
 <script>
@@ -93,6 +103,7 @@ import { VueDraggableNext } from 'vue-draggable-next';
 import UploadCompVue from '../components/alert/UploadComp.vue';
 import { useQuasar } from 'quasar';
 import EditMenuVue from '../components/modal/EditMenu.vue';
+import WriteMenuVue from '../components/modal/WriteMenu.vue';
 
 export default {
   name: 'SampleData',
@@ -108,20 +119,24 @@ export default {
     // const alert = ref(false);
     // const confirm = ref(false);
     const menuData = reactive({
-      label: '',
+      name: '',
       icon: '',
       seq: '',
       sep: 'false',
       num: '',
       path: '',
+      com_path: '',
+      file_path: '',
     });
     const reform = () => {
-      menuData.label = '';
+      menuData.name = '';
       menuData.icon = '';
       menuData.sep = 'false';
       menuData.seq = '';
       menuData.num = '';
       menuData.path = '';
+      menuData.com_path = '';
+      menuData.file_path = '';
     };
     const getMenu = async () => {
       await axios
@@ -137,12 +152,14 @@ export default {
     const dialog = ref(false);
     const save = () => {
       const param = {
-        MENU_LABEL: menuData.label,
+        MENU_NAME: menuData.name,
         MENU_ICON: menuData.icon,
         MENU_SEQ: menuData.seq,
         MENU_SEPARATOR: menuData.sep,
         MENU_NUM: menuData.num,
         MENU_PATH: menuData.path,
+        MENU_FILE_PATH: menuData.file_path,
+        MENU_COM_PATH: menuData.com_path,
       };
       callUrl('/menuSave', param)
         .then((response) => {
@@ -166,20 +183,20 @@ export default {
           console.log(error);
         });
     };
-    const deleteM = (index) => {
-      if (!confirm('삭제하시겠습니까?')) return false;
-      // alert.value = true;
-      // confirm.value = true;
-      // console.log(alert);
-      callUrl('/delete', list.menuList[index])
-        .then((response) => {
-          alert('삭제되었습니다.');
-          router.go();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    };
+    // const deleteM = (index) => {
+    //   if (!confirm('삭제하시겠습니까?')) return false;
+    //   // alert.value = true;
+    //   // confirm.value = true;
+    //   // console.log(alert);
+    //   callUrl('/delete', list.menuList[index])
+    //     .then((response) => {
+    //       alert('삭제되었습니다.');
+    //       router.go();
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
+    // };
 
     const log = ({ moved }) => {
       console.log(moved.element);
@@ -199,12 +216,14 @@ export default {
     };
     //수정 메서드
     const edit = (index) => {
-      menuData.label = list.menuList[index].MENU_LABEL;
+      menuData.name = list.menuList[index].MENU_NAME;
       menuData.icon = list.menuList[index].MENU_ICON.trim();
       menuData.seq = list.menuList[index].MENU_SEQ;
       menuData.sep = (list.menuList[index].MENU_SEPARATOR + '').trim();
       menuData.num = list.menuList[index].MENU_NUM;
       menuData.path = list.menuList[index].MENU_PATH;
+      menuData.com_path = list.menuList[index].MENU_COM_PATH;
+      menuData.file_path = list.menuList[index].MENU_FILE_PATH;
     };
 
     const $q = useQuasar();
@@ -222,17 +241,18 @@ export default {
           console.log('OK');
           console.log(menuData);
           const param = {
-            MENU_LABEL: menuData.label,
+            MENU_NAME: menuData.name,
             MENU_ICON: menuData.icon,
             MENU_SEQ: menuData.seq,
             MENU_SEPARATOR: menuData.sep,
             MENU_NUM: menuData.num,
             MENU_PATH: menuData.path,
+            MENU_COM_PATH: menuData.com_path,
+            MENU_FILE_PATH: menuData.file_path,
           };
           callUrl('/menuSave', param)
             .then((response) => {
-              list.menuList = response.data;
-              router.go();
+              getMenu();
             })
             .catch(function (error) {
               console.log(error);
@@ -249,22 +269,18 @@ export default {
       $q.dialog({
         title: '삭제',
         message:
-          '해당 ' + list.menuList[index].MENU_LABEL + '을/를 삭제하시겠습니까?',
+          '해당 ' + list.menuList[index].MENU_NAME + '을/를 삭제하시겠습니까?',
         cancel: true,
         persistent: true,
       })
         .onOk(() => {
           callUrl('/delete', list.menuList[index])
             .then((response) => {
-              positioned;
-              router.go();
+              positioned();
             })
             .catch(function (error) {
               console.log(error);
             });
-        })
-        .onOk(() => {
-          // console.log('>>>> second OK catcher')
         })
         .onCancel(() => {
           // console.log('>>>> Cancel')
@@ -279,8 +295,42 @@ export default {
         title: '알림',
         message: '삭제가 완료 되었습니다.',
         position: 'top',
-      });
+      })
+        .onOk(() => {
+          getMenu();
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        });
     }
+
+    const writeModal = () => {
+      $q.dialog({
+        component: WriteMenuVue,
+        parent: this,
+      })
+        .onOk((menuData) => {
+          console.log('OK');
+          console.log(menuData);
+          callUrl('/menuSave', menuData)
+            .then((response) => {
+              list.menuList = response.data;
+              router.go();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        })
+        .onCancel(() => {
+          console.log('Cancel');
+        })
+        .onDismiss(() => {
+          console.log('Called on OK or Cancel');
+        });
+    };
     onMounted(() => {
       getMenu();
     });
@@ -291,7 +341,7 @@ export default {
       test: ref('test'),
       menuData,
       save,
-      deleteM,
+      // deleteM,
       insert: ref(true),
       reform,
       edit,
@@ -300,8 +350,12 @@ export default {
       alert,
       confirm,
       db,
+      writeModal,
     };
   },
 };
 </script>
-<style scoped></style>
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+</style>
